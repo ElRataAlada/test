@@ -1,0 +1,754 @@
+* {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+*, *:before, *:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+:focus, :active {
+  outline: none;
+}
+
+a:focus, a:active {
+  outline: none;
+}
+
+nav, footer, header, aside {
+  display: block;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  font-size: 100%;
+  line-height: 100%;
+  font-size: 14px;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+input, button, textarea {
+  font-family: inherit;
+}
+
+input::-ms-clear {
+  display: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+button::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+a a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+ul li {
+  list-style: none;
+}
+
+img {
+  vertical-align: top;
+}
+
+html {
+  background-color: #0d1117;
+  font-size: 16px;
+  color: white;
+  line-height: normal;
+  font-family: "Exo 2", sans-serif;
+}
+
+* {
+  z-index: inherit;
+}
+
+* {
+  user-select: none;
+}
+
+.test {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  color: #008000;
+}
+
+body {
+  display: flex;
+  gap: 30px;
+  padding: 20px;
+}
+
+aside {
+  flex: 20%;
+}
+
+menu {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+  padding: 10px 0;
+}
+
+.menu-bnt {
+  all: unset;
+  cursor: pointer;
+  width: 100%;
+  background-color: #21262D;
+  position: relative;
+  height: 60px;
+  font-size: 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+}
+.menu-bnt img {
+  max-height: 60%;
+  margin-left: 20px;
+}
+.menu-bnt[selected] {
+  outline: 2px solid gray;
+}
+
+.profile-btn {
+  all: unset;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  margin-top: auto;
+  width: 70px;
+  aspect-ratio: 1;
+  background-color: #21262D;
+}
+.profile-btn img {
+  all: unset;
+  max-width: 60%;
+}
+.profile-btn .user-photo {
+  border-radius: 50%;
+  display: block;
+  overflow: hidden;
+}
+
+main {
+  flex: 80%;
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  background-color: #21262D;
+}
+
+.popup {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 100vw;
+  height: 100dvh;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.start-form {
+  position: relative;
+  max-width: 500px;
+  width: 100%;
+  height: 80%;
+  background: #303030;
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.start-form h2 {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 100%;
+}
+.start-form h2::after {
+  content: "";
+  display: block;
+  background-color: white;
+  top: 50px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  position: absolute;
+}
+.start-form .start-form-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+  height: 90%;
+  width: 65%;
+  padding-top: 10px;
+}
+.start-form .start-form-wrapper > input {
+  all: unset;
+  height: 30px;
+  width: 100%;
+  position: relative;
+  background-color: transparent;
+  margin-bottom: 50px;
+  border-bottom: 2px solid gray;
+}
+.start-form .start-form-wrapper > input:disabled {
+  opacity: 0.3;
+}
+.start-form .sex-wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  margin-bottom: 30px;
+  gap: 50px;
+}
+.start-form label {
+  position: relative;
+  display: flex;
+}
+.start-form label input {
+  margin-right: 5px;
+}
+.start-form label input:disabled, .start-form label input:disabled + p {
+  opacity: 0.3;
+}
+.start-form .mas-wrapper {
+  margin-top: 30px;
+  position: relative;
+  flex-wrap: nowrap;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.start-form .mas-wrapper input {
+  all: unset;
+  height: 30px;
+  width: 40%;
+  position: relative;
+  background-color: transparent;
+  margin-bottom: 30px;
+  border-bottom: 2px solid gray;
+}
+.start-form .mas-wrapper input:disabled {
+  opacity: 0.3;
+}
+.start-form .form-btns {
+  position: relative;
+  margin-top: auto;
+  margin-bottom: 30px;
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+.start-form .form-btns .btn-google {
+  all: unset;
+  position: relative;
+  width: 70px;
+  aspect-ratio: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: #21262D;
+}
+.start-form .form-btns .btn-google img {
+  max-width: 40px;
+  aspect-ratio: 1;
+}
+.start-form .form-btns .btn-submit {
+  color: white;
+  font-size: 20px;
+  padding: 15px 20px;
+  background-color: #21262D;
+  border-radius: 20px;
+}
+.start-form .form-btns .btn-submit:disabled {
+  opacity: 0.4;
+}
+
+menu button .content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 100%;
+  width: 100%;
+  padding: 10px 20px 10px 10px;
+  font-size: 16px;
+  font-weight: normal;
+}
+menu button .content .info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 0 5px;
+}
+menu button .content .user-done {
+  color: #c3c3c3;
+}
+menu button .content .user-done span {
+  color: white;
+  font-weight: 800;
+}
+menu button .content .user-target {
+  color: #c3c3c3;
+}
+menu progress {
+  border: 0;
+  width: 100%;
+  height: 10px;
+  border-radius: 10px;
+}
+menu progress.done::-webkit-progress-value {
+  background-color: green !important;
+}
+menu progress::-webkit-progress-bar {
+  border: 0;
+  background-color: #eee;
+  height: 10px;
+  border-radius: 10px;
+  transition: width 5s linear;
+}
+menu progress::-webkit-progress-value {
+  border: 0;
+  background-color: #3175dd;
+  height: 10px;
+  border-radius: 10px;
+}
+menu progress::-moz-progress-bar {
+  border: 0;
+  height: 10px;
+  border-radius: 10px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0 !important;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.water-page {
+  position: relative;
+  height: 100%;
+}
+.water-page .page-wrapper {
+  position: relative;
+  padding: 20px;
+  height: 100%;
+}
+.water-page .water {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+.water-page .water .progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  background-image: linear-gradient(180deg, #1c8de3 60%, #002574 100%);
+  width: 100%;
+  height: 0;
+  margin-bottom: 0;
+  transition: height 0.3s ease;
+}
+.water-page .water .wave {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100px;
+  transition: transform 0.35s ease;
+  background-color: #1c8de3;
+  animation: animate 4s ease-in-out infinite;
+}
+@keyframes animate {
+  0%, 100% {
+    clip-path: polygon(0% 45%, 16% 44%, 33% 50%, 54% 60%, 70% 61%, 84% 59%, 100% 52%, 100% 100%, 0% 100%);
+  }
+  50% {
+    clip-path: polygon(0% 60%, 15% 65%, 34% 66%, 51% 62%, 67% 50%, 84% 45%, 100% 46%, 100% 100%, 0% 100%);
+  }
+}
+.water-page .water .bubble {
+  position: absolute;
+  bottom: -100px;
+  background-color: #f1f1f1;
+  border-radius: 50%;
+  opacity: 0.5;
+  z-index: 101;
+  animation: fly 15s ease-in-out infinite;
+}
+.water-page .water .bubble:nth-child(1) {
+  left: 1%;
+  height: 40px;
+  width: 40px;
+  animation-duration: 8s;
+}
+.water-page .water .bubble:nth-child(2) {
+  left: 10%;
+  height: 20px;
+  width: 20px;
+  animation-duration: 10s;
+  animation-delay: 1s;
+}
+.water-page .water .bubble:nth-child(3) {
+  left: 15%;
+  height: 30px;
+  width: 30px;
+  animation-duration: 6s;
+  animation-delay: 2s;
+}
+.water-page .water .bubble:nth-child(4) {
+  left: 30%;
+  height: 60px;
+  width: 60px;
+  animation-duration: 12s;
+  animation-delay: 5s;
+}
+.water-page .water .bubble:nth-child(5) {
+  left: 40%;
+  height: 30px;
+  width: 30px;
+  animation-duration: 9s;
+  animation-delay: 0;
+}
+.water-page .water .bubble:nth-child(6) {
+  left: 50%;
+  height: 15px;
+  width: 15px;
+  animation-duration: 13s;
+  animation-delay: 8s;
+}
+.water-page .water .bubble:nth-child(7) {
+  left: 55%;
+  height: 60px;
+  width: 60px;
+  animation-duration: 10s;
+  animation-delay: 0;
+}
+.water-page .water .bubble:nth-child(8) {
+  left: 60%;
+  height: 10px;
+  width: 10px;
+  animation-duration: 14s;
+  animation-delay: 5s;
+}
+.water-page .water .bubble:nth-child(9) {
+  left: 65%;
+  height: 20px;
+  width: 20px;
+  animation-duration: 10s;
+  animation-delay: 3s;
+}
+.water-page .water .bubble:nth-child(10) {
+  left: 70%;
+  height: 55px;
+  width: 55px;
+  animation-duration: 7s;
+  animation-delay: 11s;
+}
+.water-page .water .bubble:nth-child(11) {
+  left: 80%;
+  height: 33px;
+  width: 33px;
+  animation-duration: 4s;
+  animation-delay: 15s;
+}
+.water-page .water .bubble:nth-child(12) {
+  left: 90%;
+  height: 24px;
+  width: 24px;
+  animation-duration: 8s;
+  animation-delay: 5s;
+}
+.water-page .water .bubble:nth-child(13) {
+  left: 95%;
+  height: 20px;
+  width: 20px;
+  animation-duration: 9s;
+  animation-delay: 4s;
+}
+.water-page .water .bubble:nth-child(14) {
+  left: 25%;
+  height: 28px;
+  width: 28px;
+  animation-duration: 17s;
+  animation-delay: 0s;
+}
+.water-page .water .bubble:nth-child(15) {
+  left: 20%;
+  height: 20px;
+  width: 20px;
+  animation-duration: 14s;
+  animation-delay: 1s;
+}
+@keyframes fly {
+  0% {
+    bottom: -60px;
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(100px);
+  }
+  100% {
+    bottom: 1080px;
+    transform: translateX(-200px);
+  }
+}
+.water-page .water-options-wrapper {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  z-index: 40;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+}
+.water-page .water-options-wrapper .edit-popup {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 300px;
+  height: 100px;
+  right: -300px;
+  bottom: 0px;
+  z-index: 10;
+  border-radius: 20px 0 0 20px;
+  background-color: #0d1117;
+  padding: 0 25px;
+  padding-right: 40px;
+  animation: anim 0.5s ease forwards;
+}
+@keyframes anim {
+  from {
+    right: -300px;
+  }
+  to {
+    right: 80px;
+  }
+}
+.water-page .water-options-wrapper .edit-popup.remove {
+  animation: anim2 0.5s ease forwards;
+}
+@keyframes anim2 {
+  from {
+    right: 80px;
+  }
+  to {
+    right: -300px;
+  }
+}
+.water-page .water-options-wrapper .edit-popup .edit-input {
+  all: unset;
+  max-width: 100px;
+  text-align: left;
+  height: 25px;
+  margin-bottom: 5px;
+  border-bottom: 2px solid gray;
+}
+.water-page .water-options-wrapper .edit-popup .edit-options {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.water-page .water-options-wrapper .edit-popup .edit-option {
+  all: unset;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70%;
+  cursor: pointer;
+  transition: scale 0.2s ease;
+}
+.water-page .water-options-wrapper .edit-popup .edit-option:hover {
+  scale: 1.1;
+}
+.water-page .water-options-wrapper .edit-popup .edit-option img {
+  max-height: 60%;
+}
+.water-page .water-options {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  background-color: #0d1117;
+  gap: 30px;
+  align-items: center;
+  width: 100px;
+  border-radius: 20px;
+  padding: 30px 0;
+  text-align: center;
+}
+.water-page .water-options .option {
+  all: unset;
+  cursor: pointer;
+  position: relative;
+  transition: scale 0.2s ease;
+}
+.water-page .water-options .option:hover {
+  scale: 1.1;
+}
+.water-page .water-options .option img {
+  max-width: 40px;
+  margin-bottom: 10px;
+}
+.water-page .water-options .line {
+  display: block;
+  height: 3px;
+  width: 100%;
+  background-color: white;
+}
+.water-page .water-options .edit {
+  position: relative;
+}
+.water-page .water-options .edit img {
+  margin-bottom: 0;
+}
+.water-page .main-info {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+.water-page .main-info .content {
+  position: relative;
+  text-align: center;
+  background-color: #0d1117;
+  box-shadow: 3px 3px 10px black;
+  border-radius: 20px;
+  z-index: 99;
+  padding: 30px;
+  transform: translate(-20%, -70%);
+}
+.water-page .main-info .water-left {
+  font-weight: 800;
+  font-size: 25px;
+  line-height: normal;
+  margin-bottom: 30px;
+}
+.water-page .water-info {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  text-align: center;
+  width: fit-content;
+  z-index: 100;
+  gap: 30px;
+}
+.water-page .water-info .recomended {
+  position: relative;
+  border-radius: 20px;
+  background-color: #0d1117;
+  outline: 2px solid #0d1117;
+  padding: 10px 40px;
+  box-shadow: 3px 3px 10px black;
+}
+.water-page .water-info .recomended h2 {
+  font-weight: normal;
+  font-size: 20px;
+  line-height: normal;
+}
+.water-page .water-info .recomended p {
+  margin-top: 15px;
+  font-size: 16px;
+  line-height: normal;
+}
+.water-page .water-info .recomended span {
+  font-weight: 800;
+  font-size: 20px;
+  line-height: normal;
+}
+.water-page .water-info .goal {
+  padding-right: 50px;
+  overflow: hidden;
+}
+.water-page .water-info .edit {
+  all: unset;
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding: 2px 4px 4px 2px;
+  border-radius: 10px 0 0 0;
+  background-color: #21262D;
+}
+.water-page .water-info .edit img {
+  width: 30px;
+}
+.water-page .water-info .input-goal {
+  all: unset;
+  cursor: pointer;
+  height: 25px;
+  text-align: left;
+  font-size: 16px;
+  width: 60px;
+  margin-right: 10px;
+  border-bottom: solid 2px gray;
+}
+
+.loadscreen {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100dvh;
+  height: 100vh;
+  background-color: #000000;
+  z-index: 101;
+  animation: disapear 2s ease-in forwards;
+}
+@keyframes disapear {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    pointer-events: none;
+  }
+}/*# sourceMappingURL=style.css.map */
