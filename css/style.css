@@ -120,6 +120,7 @@ menu {
   border-radius: 10px;
   display: flex;
   align-items: center;
+  transition: scale 0.2s ease;
 }
 .menu-bnt img {
   max-height: 60%;
@@ -128,28 +129,48 @@ menu {
 .menu-bnt[selected] {
   outline: 2px solid gray;
 }
+.menu-bnt:hover {
+  scale: 1.05;
+}
 
 .profile-btn {
   all: unset;
   cursor: pointer;
   position: relative;
   display: flex;
-  justify-content: center;
+  flex-wrap: nowrap;
   align-items: center;
   border-radius: 20px;
   margin-top: auto;
-  width: 70px;
-  aspect-ratio: 1;
+  overflow: hidden;
+  max-height: 80px;
+  height: 100%;
+  width: 80px;
+  transition: width 0.6s ease, scale 0.3s ease;
   background-color: #21262D;
+}
+.profile-btn h2 {
+  width: 0;
+  display: block;
+  line-height: normal;
+  opacity: 0;
+  margin-left: 20px;
+  transition: opacity 0.3s 0.3s ease;
 }
 .profile-btn img {
   all: unset;
-  max-width: 60%;
-}
-.profile-btn .user-photo {
-  border-radius: 50%;
   display: block;
+  margin-left: 20px;
+  max-height: 50%;
+  border-radius: 50%;
   overflow: hidden;
+}
+.profile-btn[selected], .profile-btn:hover {
+  width: 100%;
+  aspect-ratio: unset;
+}
+.profile-btn[selected] h2, .profile-btn:hover h2 {
+  opacity: 1;
 }
 
 main {
@@ -359,6 +380,19 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
+.page {
+  opacity: 0;
+  animation: apear 0.2s ease forwards;
+}
+
+@keyframes apear {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 .water-page {
   position: relative;
   height: 100%;
@@ -672,6 +706,26 @@ input[type=number] {
   line-height: normal;
   margin-bottom: 30px;
 }
+.water-page .water-history-btn {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  z-index: 105;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0d1117;
+  box-shadow: 3px 3px 10px black;
+  border-radius: 20px;
+  width: 80px;
+  aspect-ratio: 1;
+  padding-right: 3px;
+}
+.water-page .water-history-btn img {
+  aspect-ratio: 1;
+  max-width: 80%;
+}
 .water-page .water-info {
   display: flex;
   flex-wrap: nowrap;
@@ -731,6 +785,106 @@ input[type=number] {
   margin-right: 10px;
   border-bottom: solid 2px gray;
 }
+.water-page .popup {
+  transition: opacity 0.2s ease;
+}
+.water-page .water-hispory-popup {
+  position: relative;
+  cursor: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 20px;
+  width: 80%;
+  height: 80%;
+  background-color: #21262D;
+}
+.water-page .water-hispory-popup h2 {
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-size: 30px;
+  line-height: 100%;
+  margin-top: 15px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid white;
+}
+.water-page .water-hispory-popup .main {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: calc(100% - 45px);
+  width: 100%;
+}
+.water-page .water-hispory-popup .main-footer {
+  position: relative;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-around;
+  width: 100%;
+  margin-bottom: 20px;
+  margin-top: 30px;
+}
+.water-page .water-hispory-popup .chart {
+  width: 100%;
+  height: 60%;
+}
+.water-page .water-hispory-popup .chart-options {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+}
+.water-page .water-hispory-popup .chart-option input {
+  all: unset;
+  width: 0;
+  height: 0;
+  visibility: hidden;
+}
+.water-page .water-hispory-popup .chart-option input:checked + p {
+  color: white !important;
+  border-bottom: 2px solid white !important;
+}
+.water-page .water-hispory-popup .chart-option p {
+  transition: all 0.3s ease;
+  padding-bottom: 3px;
+  color: gray;
+  cursor: pointer;
+}
+.water-page .water-hispory-popup .water-chart-legend {
+  display: block;
+}
+.water-page .water-hispory-popup .water-chart-legend div {
+  position: relative;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  line-height: normal;
+}
+.water-page .water-hispory-popup .water-chart-legend div:first-child {
+  margin-bottom: 10px;
+}
+.water-page .water-hispory-popup .water-chart-legend div:last-child::after, .water-page .water-hispory-popup .water-chart-legend div:first-child::after {
+  content: "";
+  margin-top: 2px;
+  position: relative;
+  display: block;
+  background-color: red;
+  height: 4px;
+  margin-left: 5px;
+  border-radius: 10px;
+  width: 50px;
+}
+.water-page .water-hispory-popup .water-chart-legend div:first-child::after {
+  background-color: #3175dd;
+}
+.water-page .popup {
+  width: 100%;
+  height: 100%;
+  visibility: hidden;
+}
 
 .loadscreen {
   position: absolute;
@@ -751,4 +905,104 @@ input[type=number] {
     opacity: 0;
     pointer-events: none;
   }
+}
+
+.user-page {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  padding: 25px;
+  display: flex;
+  flex-flow: column;
+}
+.user-page .header {
+  position: relative;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 20px;
+  background-color: #0d1117;
+  padding: 20px;
+  border-radius: 20px;
+}
+.user-page .header .info {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-left: 30px;
+  gap: 80px;
+}
+.user-page .header .info .col {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-evenly;
+}
+.user-page .header .info .info-item {
+  position: relative;
+  font-size: 18px;
+  line-height: normal;
+  font-weight: 600;
+  width: fit-content;
+}
+.user-page .header .info p {
+  display: inline;
+  color: gray;
+}
+.user-page .header .info-input {
+  all: unset;
+  color: white;
+  font-size: 16px;
+  padding-bottom: 5px;
+  line-height: normal;
+  width: 10ch;
+  margin-right: 10px;
+  border-bottom: 2px solid gray;
+}
+.user-page .header .info-input#name {
+  width: 13ch;
+}
+.user-page .header .info-input#age {
+  width: 3ch;
+}
+.user-page .header .info-input#height {
+  width: 4ch;
+}
+.user-page .header .info-input#weight {
+  width: 4ch;
+}
+.user-page .header #name {
+  font-size: 22px;
+  font-weight: 800;
+}
+.user-page .header #logout {
+  all: unset;
+  margin-left: auto;
+  cursor: pointer;
+  border-radius: 20px;
+  background-color: #21262D;
+  padding: 15px 30px;
+  align-self: flex-end;
+  text-align: center;
+  line-height: normal;
+  font-size: 16px;
+  height: fit-content;
+  transition: all 0.2s ease;
+  border: 1px solid gray;
+}
+.user-page .user-photo {
+  display: block;
+  padding: 20px;
+  max-height: 150px;
+  height: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+}
+.user-page .main {
+  position: relative;
+  background-color: #0d1117;
+  border-radius: 20px;
+  width: 100%;
+  margin-top: 20px;
+  flex-grow: 1;
 }/*# sourceMappingURL=style.css.map */

@@ -59,6 +59,7 @@ menu {
 
     border-radius: 10px;
 
+
     display: flex;
     align-items: center;
 
@@ -70,6 +71,12 @@ menu {
     &[selected] {
         outline: 2px solid gray;
     }
+    
+    transition: scale .2s ease;
+    
+    &:hover{
+        scale: 1.05;
+    }
 }
 
 
@@ -80,26 +87,52 @@ menu {
     position: relative;
 
     display: flex;
-    justify-content: center;
+    flex-wrap: nowrap;
     align-items: center;
 
     border-radius: 20px;
     margin-top: auto;
 
-    width: 70px;
-    aspect-ratio: 1;
+    overflow: hidden;
+    
+    max-height: 80px;
+    height: 100%;
+    width: 80px;
 
+    transition: width .6s ease, scale .3s ease;
+    
     background-color: #21262D;
+    
+    h2{
+        width: 0;
+        display: block;
+        line-height: normal;
 
+        opacity: 0;
+
+        margin-left: 20px;
+
+        transition: opacity .3s .3s ease;
+    }
+    
     img {
         all: unset;
-        max-width: 60%;
-    }
-
-    .user-photo {
-        border-radius: 50%;
         display: block;
+        margin-left: 20px;
+        
+        max-height: 50%;
+        border-radius: 50%;
         overflow: hidden;
+    }
+    
+    &[selected],
+    &:hover{
+        width: 100%;
+        aspect-ratio: unset;
+        
+        h2{
+            opacity: 1;
+        }
     }
 }
 
@@ -369,6 +402,8 @@ menu {
         height: $progress-height;
         border-radius: $progress-radius;
     }
+
+   
 }
 
 input::-webkit-outer-spin-button,
@@ -381,6 +416,16 @@ input[type=number] {
     -moz-appearance: textfield;
 }
 
+.page{
+    opacity: 0;
+
+    animation: apear .2s ease forwards;
+}
+
+@keyframes apear {
+    0%{ opacity: 0; }
+    100%{ opacity: 1; }
+}
 
 .water-page {
     position: relative;
@@ -804,6 +849,33 @@ input[type=number] {
         }
     }
     
+    .water-history-btn{
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        z-index: 105;
+
+        cursor: pointer;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background-color: #0d1117;
+        box-shadow: 3px 3px 10px black;
+        border-radius: 20px;
+
+        width: 80px;
+        aspect-ratio: 1;
+        padding-right: 3px;
+
+        img{
+            aspect-ratio: 1;
+            max-width: 80%;
+        }
+    }
+
+    
     .water-info {
         display: flex;
         flex-wrap: nowrap;
@@ -814,18 +886,18 @@ input[type=number] {
         z-index: 100;
         
         gap: 30px;
-        
+
         .recomended {
             position: relative;
             border-radius: 20px;
-
+            
             background-color: #0d1117;
             outline: 2px solid #0d1117;
-
+            
             padding: 10px 40px;
-
+            
             box-shadow: 3px 3px 10px black;
-
+            
             h2 {
                 font-weight: normal;
                 font-size: 20px;
@@ -882,6 +954,142 @@ input[type=number] {
             border-bottom: solid 2px gray;
         }
     }
+
+    .popup{
+        transition: opacity .2s ease;
+    }
+
+
+    .water-hispory-popup{
+        position: relative;
+        cursor: auto;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        border-radius: 20px;
+        width: 80%;
+        height: 80%;
+
+        background-color: #21262D;
+
+        h2{
+            display: block;
+            width: 100%;
+            text-align: center;
+            
+            font-size: 30px;
+            line-height: 100%;
+            margin-top: 15px;
+            padding-bottom: 10px;
+
+            border-bottom: 2px solid white;
+        }
+
+        .main{
+            position: relative;
+            display: flex;
+            flex-direction: column;
+
+            align-items: center;
+            height: calc(100% - 45px);
+            width: 100%;
+        }
+
+        .main-footer{
+            position: relative;
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: space-around;
+
+            width: 100%;
+            margin-bottom: 20px;
+            margin-top: 30px;
+        }
+
+        .chart{
+            width: 100%;
+            height: 60%;
+        }
+
+        .chart-options{
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+
+            
+            align-items: center;
+            gap: 20px;
+        }
+
+        .chart-option{
+            input{
+                all: unset;
+                width: 0;
+                height: 0;
+                visibility: hidden;
+                
+                &:checked + p{
+                    color: white !important;
+                    border-bottom: 2px solid white !important;
+                }
+            }
+            
+            p{
+                transition: all .3s ease;
+                padding-bottom: 3px;
+                color: gray;
+                cursor: pointer;
+            }
+
+        }
+
+        .water-chart-legend{
+            display: block;
+    
+            div{
+                position: relative;
+                display: flex;
+                align-items: center;
+    
+                font-size: 14px;
+                line-height: normal;
+
+                &:first-child{
+                    margin-bottom: 10px;
+                }
+    
+                &:last-child::after,
+                &:first-child::after{
+                    content: '';
+                    
+                    margin-top: 2px;
+                    position: relative;
+                    display: block;
+                    background-color: red;
+                    height: 4px;
+                    margin-left: 5px;
+                    border-radius: 10px;
+                    width: 50px;
+                }
+    
+                &:first-child::after{
+                    background-color: #3175dd;
+                }
+            }
+        }
+    }
+
+
+
+    .popup{
+        width: 100%;
+        height: 100%;
+
+        visibility: hidden;
+    }
+
 }
 
 
@@ -909,5 +1117,134 @@ input[type=number] {
             opacity: 0;
             pointer-events: none;
         }
+    }
+}
+
+.user-page{
+    position: relative;
+    height: 100%;
+    width: 100%;
+
+    padding: 25px;
+
+    display: flex;
+    flex-flow: column;
+
+    .header{
+        position: relative;
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 20px;
+
+        background-color: #0d1117;
+        padding: 20px;
+        border-radius: 20px;
+
+        .info{
+            position: relative;
+            display: flex;
+            align-items: center;
+
+
+            margin-left: 30px;
+
+            gap: 80px;
+            
+            .col{
+                display: flex;
+                flex-wrap: nowrap;
+                flex-direction: column;
+                height: 100%;
+                justify-content: space-evenly;
+            }
+
+            .info-item{
+                position: relative;
+                font-size: 18px;
+                line-height: normal;
+                font-weight: 600;
+                width: fit-content;
+            }
+            
+            p{
+                display: inline;
+                color: gray;
+            }
+        }
+
+        .info-input{
+            all: unset;
+            
+            color: white;
+            font-size: 16px;
+            padding-bottom: 5px;
+            line-height: normal;
+
+            width: 10ch;
+            margin-right: 10px;
+            
+            border-bottom: 2px solid gray;
+            
+            &#name{
+                width: 13ch;
+            }
+            &#age{
+                width: 3ch;
+            }
+            &#height{
+                width: 4ch;
+            }
+            &#weight{
+                width: 4ch;
+            }
+        }
+
+        #name{
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        #logout{
+            all: unset;
+            margin-left: auto;
+            
+            cursor: pointer;
+            border-radius: 20px;
+            background-color: #21262D;
+            
+            padding: 15px 30px;
+            
+            align-self: flex-end;
+            
+            text-align: center;
+            line-height: normal;
+            font-size: 16px;
+            
+            height: fit-content;
+
+            transition: all .2s ease;
+            border: 1px solid gray;
+        }
+    }
+
+    .user-photo{
+        display: block;
+        padding: 20px;
+        max-height: 150px;
+        height: 100%;
+        aspect-ratio: 1;
+
+        border-radius: 50%;
+    }
+
+    .main{
+        position: relative;
+        background-color: #0d1117;
+
+        border-radius: 20px;
+        width: 100%;
+        margin-top: 20px;
+
+        flex-grow: 1;
     }
 }

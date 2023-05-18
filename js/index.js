@@ -6,7 +6,7 @@ export let user = {}
 import { waterPage } from './pages/waterPage.js'
 import { calPage } from './pages/calPage.js'
 import { notePage } from './pages/notePage.js'
-import { profilePage } from './pages/profilePage.js'
+import { userPage } from './pages/userPage.js'
 import { weightPage } from './pages/weightPage.js'
 
 let selectedPage = 'weight'
@@ -64,7 +64,7 @@ function menu(){
     const profileBtn = menu.querySelector('#profile')
     
     if(isUserLoggined(user)){
-        profileBtn.innerHTML = `<img src=${user.photoURL} alt=\"user\" class="user-photo">`
+        profileBtn.innerHTML = `<img src=${user.photoURL} alt=\"user\" class="user-photo"> <h2>${user.name}</h2>`
     }
 
     function weightButton(currentWeight){
@@ -115,7 +115,7 @@ function selectPage(page = 'weight'){
             break;
 
         case 'profile':
-            profilePage()
+            userPage()
             break;
     
         default:

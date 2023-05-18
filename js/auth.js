@@ -17,6 +17,8 @@ const firestore = getFirestore(app);
 
 export function isUserLoggined(user) { return user && Object.keys(user).length > 5 && auth.currentUser}
 export async function authStateChanged(callback) { onAuthStateChanged(auth, await callback) }
+export function logOut() { signOut(auth) }
+
 let user = {}
 
 const usersCollection = collection(firestore, 'users')
