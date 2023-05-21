@@ -7,50 +7,140 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="./css/style.css">
 
     <script defer src="https://www.gstatic.com/charts/loader.js"></script>
     <script defer src="https://www.google.com/jsapi"></script>
 
+    <link rel="apple-touch-icon" sizes="180x180" href="./img/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./img/favicon/favicon-16x16.png">
+    <link rel="manifest" href="./img/favicon/site.webmanifest">
+
     <script defer type="module" src="./js/index.js"></script>
 
-    <title>Title</title>
+    <title>Здоров'я</title>
 </head>
 
 <body>
     <aside>
         <menu id="menu">
-            
         </menu>
     </aside>
-    
-    <main>
-        <div class="user-page page">
-            <div class="header">
-                <img class="user-photo" id="photo" src="./img/ico/user.png" alt="user">
 
+    <main>
+        <div class="weight-page page">
+            <div class="weight-info">
+                <label class="recomended">
+                    <h2>Рекомендована вага</h2>
+                    <h3><p id="weight-recomended">0</p><f>кг</f></h3>
+                </label>
+                
+                <label class="recomended goal">
+                    <h2>Бажана вага</h2>
+                    <h3><p id="weight-goal">0</p><f>кг</f></h3>
+                    
+                    <button class="edit" id="weight-edit-goal"><img src="./img/ico/edit.png" alt="edit"></button>
+                </label>
+                
+                
                 <div class="info">
                     <div class="col">
-                        <h2 class="info-item" id="name"><span></span></h2>
-                        <h2 class="info-item" id="weight"><span></span><p> кг</p></h2>
+                        <div class="item">Мінімальна вага: <div id="min-w"></div><p>кг</p></div>
+                        <div class="item">Максимальна вага: <div id="max-w"></div><p>кг</p></div>
                     </div>
                     <div class="col">
-                        <h2 class="info-item" id="age"><span></span><p> років</p></h2>
-                        <h2 class="info-item" id="height"><span></span><p> см</p></h2>
+                        <div class="item">ІМТ: <div id="BMI"></div></div>
                     </div>
                 </div>
-
-                <button type="button" id="logout">Вийти</button>
             </div>
 
             <div class="main">
-
+                <div class="main-btns">
+                    <input id="history" type="radio" checked name="menu"/> 
+                    <label for="history">Історія</label>
+                    
+                    <input id="stat" type="radio" name="menu"/> 
+                    <label for="stat"> Статистика</label>
+                </div>
+                <div class="history">
+                    <div class="item">
+                        <div class="col">
+                            <div class="time">21-05-2023 01:57</div>
+                            <div class="history-info">
+                                <div class="info-item bmi"><p>ІМТ</p><span>21,1</span></div>
+                                <div class="info-item fat"><p>Тілесний жир (%)</p><span>21,1</span></div>
+                            </div>
+                        </div>
+                        <div class="weight"><div class="arrow g"></div><span>90</span> <p>кг</p></div>
+                    </div>
+                    <div class="item">
+                        <div class="col">
+                            <div class="time">21-05-2023 01:57</div>
+                            <div class="history-info">
+                                <div class="info-item bmi"><p>ІМТ</p><span>21,1</span></div>
+                                <div class="info-item fat"><p>Тілесний жир (%)</p><span>21,1</span></div>
+                            </div>
+                        </div>
+                        <div class="weight"><div class="arrow r"></div><span>90</span> <p>кг</p></div>
+                    </div>
+                    <div class="item">
+                        <div class="col">
+                            <div class="time">21-05-2023 01:57</div>
+                            <div class="history-info">
+                                <div class="info-item bmi"><p>ІМТ</p><span>21,1</span></div>
+                                <div class="info-item fat"><p>Тілесний жир (%)</p><span>21,1</span></div>
+                            </div>
+                        </div>
+                        <div class="weight"><span>90</span> кг</div>
+                    </div>
+                    <div class="item">
+                        <div class="col">
+                            <div class="time">21-05-2023 01:57</div>
+                            <div class="history-info">
+                                <div class="info-item bmi"><p>ІМТ</p><span>21,1</span></div>
+                                <div class="info-item fat"><p>Тілесний жир (%)</p><span>21,1</span></div>
+                            </div>
+                        </div>
+                        <div class="weight"><span>90</span> кг</div>
+                    </div>
+                    <div class="item">
+                        <div class="col">
+                            <div class="time">21-05-2023 01:57</div>
+                            <div class="history-info">
+                                <div class="info-item bmi"><p>ІМТ</p><span>21,1</span></div>
+                                <div class="info-item fat"><p>Тілесний жир (%)</p><span>21,1</span></div>
+                            </div>
+                        </div>
+                        <div class="weight"><span>90</span> кг</div>
+                    </div>
+                    <div class="item">
+                        <div class="col">
+                            <div class="time">21-05-2023 01:57</div>
+                            <div class="history-info">
+                                <div class="info-item bmi"><p>ІМТ</p><span>21,1</span></div>
+                                <div class="info-item fat"><p>Тілесний жир (%)</p><span>21,1</span></div>
+                            </div>
+                        </div>
+                        <div class="weight"><span>90</span> кг</div>
+                    </div>
+                    <div class="item">
+                        <div class="col">
+                            <div class="time">21-05-2023 01:57</div>
+                            <div class="history-info">
+                                <div class="info-item bmi"><p>ІМТ</p><span>21,1</span></div>
+                                <div class="info-item fat"><p>Тілесний жир (%)</p><span>21,1</span></div>
+                            </div>
+                        </div>
+                        <div class="weight"><span>90</span> кг</div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
-    
-    <div class="loadscreen"/>
 </body>
 
 </html>

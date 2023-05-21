@@ -3,8 +3,9 @@ import { Health } from '../health.js'
 import { mainRef, user, userStateChanged } from '../index.js'
 
 export function userPage(){
-    // mainRef.innerHTML = ''
-    // const mainRef = 
+    mainRef.innerHTML = ''
+    mainRef.innerHTML = '<div class="user-page page"> <div class="header"> <img class="user-photo" id="photo" src="./img/ico/user.png" alt="user"> <div class="info"> <div class="col"> <h2 class="info-item" id="name"><span></span></h2> <h2 class="info-item" id="weight"><span></span><p> кг</p></h2> </div> <div class="col"> <h2 class="info-item" id="age"><span></span><p> років</p></h2> <h2 class="info-item" id="height"><span></span><p> см</p></h2> </div> </div> <button type="button" id="logout">Вийти</button> </div> <div class="main"> </div> </div>'
+    
     const main = document.querySelector('.user-page')
 
     main.querySelector('#name').querySelector('span').innerHTML = user?.name || "None"
@@ -52,9 +53,13 @@ export function userPage(){
                 }
                 else if(id === 'weight') {
                     user.weight.current = +e.currentTarget.value
+                    user.weight.min = Math.min(user.weight.current, user.weight.min)
+                    user.weight.max = Math.max(user.weight.current, user.weight.max)
+
                     span.innerHTML = user.weight.current
                     Health.setRecomendedCal(user)
                     Health.setRecomendedWater(user)
+                    Health.countBMI(user)
                 }
                 else if(id === 'height') {
                     user.height = +e.currentTarget.value
@@ -63,7 +68,6 @@ export function userPage(){
                     Health.setRecomendedCal(user)
                 } else return
 
-                writeUser(user)
                 userStateChanged()
 
                 item.removeChild(input)

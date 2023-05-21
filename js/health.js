@@ -1,18 +1,32 @@
+
 export class Health {
     static setRecomendedWeight(user) {
         user.weight.recomended = 23 * ((user.height/100) * (user.height/100))
-        return user
+        user.weight.target = user.weight.recomended
+
+        return user.weight.recomended
     }
     
     static setRecomendedWater(user){
         user.water.recomended = user.weight.current * 0.03
-        return user
+        user.water.target = user.water.recomended
+
+        return user.water.recomended
     }
     
     static setRecomendedCal(user){
         user.cal.recomended = user.sex === 'male' ? 
             user.weight.current * 10 + 6.25 * user.height - 5 * user.age + 5:
             user.weight.current * 10 + 6.25 * user.height - 5 * user.age - 161
-        return user
+        
+        user.cal.target = user.cal.recomended
+        
+        return user.cal.recomended
+    }
+
+    static countBMI(user){
+        user.weight.BMI = user.weight.current / ((user.height/100) * (user.height/100))
+        
+        return user.weight.BMI
     }
 }

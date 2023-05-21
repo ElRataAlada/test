@@ -123,16 +123,15 @@ function showLoginPopup(enabled) {
             user.sex = sex
 
             user.weight = { current: +weight, goal: 0, min: +weight, max: +weight }
-            user = Health.setRecomendedWeight(user)
-            user.weight.target = user.weight.recomended
+            Health.setRecomendedWeight(user)
 
             user.water = { current: 0, goal: 0 }
-            user = Health.setRecomendedWater(user)
-            user.water.target = user.water.recomended
+            Health.setRecomendedWater(user)
 
-            user.cal = { current: 0, goal: 0 }
-            user = Health.setRecomendedCal(user)
-            user.cal.target = user.cal.recomended
+            user.cal = { current: 0, goal: 0, fat: 0, prot: 0, carb: 0 }
+            Health.setRecomendedCal(user)
+
+            Health.countBMI(user)
 
             await writeUser(user)
 

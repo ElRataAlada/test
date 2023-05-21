@@ -1,4 +1,4 @@
-import { mainRef, userStateChanged, round, user } from '../index.js'
+import { mainRef, userStateChanged, round, user} from '../index.js'
 import { waterHistoryChart } from '../charts.js'
 
 let main = null
@@ -11,8 +11,7 @@ let bubles = false
 
 
 export function waterPage() {
-    mainRef.innerHTML = ''
-    mainRef.innerHTML += '<div class="water-page page"><div class="page-wrapper"><div class="water-info"><label class="recomended"><h2>Рекомендована кількість в день</h2><p><span id="water-recomended">0</span> л</p></label><label class="recomended goal"><h2>Бажана кількість</h2><p class="water-goal-wrapper"><span id="water-goal">0</span> л</p><button class="edit" id="water-edit-goal"><img src="./img/ico/edit.png" alt="edit"></button></label></div><div class="water-options-wrapper"><div class="water-options"><button class="option" value="180" type="button"><img src="./img/ico/cup.png" alt="cup"><p class="subtitle">180 мл</p></button><button class="option" value="250" type="button"><img src="./img/ico/glass.png" alt="glass"><p class="subtitle">250 мл</p></button><button class="option" value="500" type="button"><img src="./img/ico/mug.png" alt="mug" style="transform: rotateY(180deg);"><p class="subtitle">500 мл</p></button><button class="option" value="750" type="button"><img src="./img/ico/jug.png" alt="jug"><p class="subtitle">750 мл</p></button><span class="line"></span><button class="option edit" id="edit" type="button"><img src="./img/ico/edit.png" alt="edit"></button></div></div><div class="main-info"><div class="content"><p class="water-left">Залишилось випити <span id="water-left">0</span> л</p><p >Сьогодні випито <span id="water-done">0</span> л</p></div></div><button type="button" class="water-history-btn" id="water-history-btn"><img src="./img/ico/clock.png" alt=""></button></div><div class="water" id="water"><div class="progress" id="main-water-progress"></div><div class="wave" id="wave"></div><div class="bubbles"></div></div></div>';
+    mainRef.innerHTML = '<div class="water-page page"><div class="page-wrapper"><div class="water-info"><label class="recomended"><h2>Рекомендована кількість в день</h2><p><span id="water-recomended">0</span> л</p></label><label class="recomended goal"><h2>Бажана кількість</h2><p class="water-goal-wrapper"><span id="water-goal">0</span> л</p><button class="edit" id="water-edit-goal"><img src="./img/ico/edit.png" alt="edit"></button></label></div><div class="water-options-wrapper"><div class="water-options"><button class="option" value="180" type="button"><img src="./img/ico/cup.png" alt="cup"><p class="subtitle">180 мл</p></button><button class="option" value="250" type="button"><img src="./img/ico/glass.png" alt="glass"><p class="subtitle">250 мл</p></button><button class="option" value="500" type="button"><img src="./img/ico/mug.png" alt="mug" style="transform: rotateY(180deg);"><p class="subtitle">500 мл</p></button><button class="option" value="750" type="button"><img src="./img/ico/jug.png" alt="jug"><p class="subtitle">750 мл</p></button><span class="line"></span><button class="option edit" id="edit" type="button"><img src="./img/ico/edit.png" alt="edit"></button></div></div><div class="main-info"><div class="content"><p class="water-left">Залишилось випити <span id="water-left">0</span> л</p><p >Сьогодні випито <span id="water-done">0</span> л</p></div></div><button type="button" class="water-history-btn" id="water-history-btn"><img src="./img/ico/clock.png" alt=""></button></div><div class="water" id="water"><div class="progress" id="main-water-progress"></div><div class="wave" id="wave"></div><div class="bubbles"></div></div></div>';
 
     main = document.querySelector('.water-page')
 
@@ -78,16 +77,21 @@ export function waterPage() {
 
                 e.preventDefault()
 
-                const value = +waterGoalInput.value
+                const value = +waterGoalInput.value || 0
 
-                if (value > 0) {
+                if(value !== 0){
                     user.water.goal = value || 0
                     user.water.target = value || 0
-                    removeEditGoal()
-                    userStateChanged()
-                    updatePage()
                 }
-            })
+                else{
+                    user.water.goal = value || 0
+                    user.water.target = user.water.recomended
+                }
+                
+                removeEditGoal()
+                userStateChanged()
+                updatePage()
+           })
 
             waterGoalWrapper.removeChild(waterGoal)
             waterGoalWrapper.insertAdjacentElement('afterbegin', waterGoalInput)

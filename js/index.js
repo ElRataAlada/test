@@ -9,37 +9,56 @@ import { notePage } from './pages/notePage.js'
 import { userPage } from './pages/userPage.js'
 import { weightPage } from './pages/weightPage.js'
 
+let firstLoad = true
+
 let selectedPage = 'weight'
-menu()
+menu(false)
+
+document.querySelector('main').classList.add('loading')
 
 authStateChanged(async (u) => {
     if(u){
         user = await getUser(u.uid)
-
+        
         if(isUserLoggined(user)) writeUser(user)
-
-        menu()
+        
+        document.querySelector('main').classList.remove('loading')
+        menu(true)
+        selectPage()
     }
 })
 
 export async function userStateChanged(){
     await writeUser(user)
-    menu()
+    menu(true)
 }
 
 export function round(number) { return Math.floor(number * 100) / 100 }
 
-function menu(){
+function menu(isUser){
     const menu = document.querySelector('#menu')
     menu.innerHTML = ''
 
-    weightButton(round(user?.weight?.current || 0))
-    waterButton(round(user?.water?.current || 0), round(user?.water?.target || 0))
-    caloriesButton(round(user?.cal?.current || 0), round(user?.cal?.target || 0))
-    noteButton()
-    
-    userButton()
+    if(isUser){
+        weightButton(round(user?.weight?.current || 0), round(user?.weight?.target || 0))
+        waterButton(round(user?.water?.current || 0), round(user?.water?.target || 0))
+        caloriesButton(round(user?.cal?.current || 0), round(user?.cal?.target || 0))
+        noteButton()
+        
+        userButton()
 
+        firstLoad = false
+    } else {
+        buttonLoading()
+        buttonLoading()
+        buttonLoading()
+        buttonLoading()
+
+        buttonLoadingUser()
+    }
+
+    if(!isUser) return
+    
     const menuBtns = document.querySelectorAll('.menu-bnt')
 
     menuBtns.forEach(btn => {
@@ -67,30 +86,38 @@ function menu(){
         profileBtn.innerHTML = `<img src=${user.photoURL} alt=\"user\" class="user-photo"> <h2>${user.name}</h2>`
     }
 
-    function weightButton(currentWeight){
-        menu.innerHTML += `<button type="button" title="Вага" data-page="weight" class="menu-bnt"><img src="./img/ico/scales.png" alt="scales"><div class="content"><p class="user-done"><span>${currentWeight} </span>кг</p></div></button>`;
+    function buttonLoading(){
+        menu.innerHTML += `<button type="button" title="Завантаження" class="menu-bnt loading"></button>`;
+    }
+
+    function buttonLoadingUser(){
+        menu.innerHTML += `<button type="button" title="Завантаження" class="menu-bnt profile-btn loading"><img src=\"./img/ico/user.png\" alt=\"user\"></button>`;
+    }
+
+    function weightButton(currentWeight, targetWeight){
+        menu.innerHTML += `<button type="button" id="weight-btn" title="Вага" data-page="weight" class="menu-bnt ${firstLoad && ' first-load'}"><img src="./img/ico/scales.png" alt="scales"><div class="content"><p class="user-done"><span>${currentWeight} </span>кг</p><p class="user-target" id="weight-target-menu"><span>${targetWeight} </span>кг</p></div></button>`;
     }
 
     function waterButton(waterCurrent, waterTarget){
-        menu.innerHTML += `<button type=\"button\" data-page=\"water\" title=\"Вода\" class=\"menu-bnt\"><img src=\"./img/ico/water.png\" alt=\"water\"><div class=\"content\"><div class=\"info\"><p class=\"user-done\" id=\"water-done\"><span> ${waterCurrent} </span> л</p><p class=\"user-target\" id=\"water-target\"> ${waterTarget} </p></div><progress class=\"progress\" id=\"water-progress\" max=\"${waterTarget}\" value=\"${waterCurrent}\" /></div></button>`
+        menu.innerHTML += `<button type=\"button\" data-page=\"water\" title=\"Вода\" class=\"menu-bnt ${firstLoad && ' first-load'}\"><img src=\"./img/ico/water.png\" alt=\"water\"><div class=\"content\"><div class=\"info\"><p class=\"user-done\" id=\"water-done\"><span> ${waterCurrent} </span> л</p><p class=\"user-target\" id=\"water-target\"> ${waterTarget} </p></div><progress class=\"progress\" id=\"water-progress\" max=\"${waterTarget}\" value=\"${waterCurrent}\" /></div></button>`
         
         if(waterCurrent >= waterTarget) menu.querySelector('#water-progress').classList.add('done')
         else menu.querySelector('#water-progress').classList.remove('done')
     }
     
     function caloriesButton(currentCal, calTarget){
-        menu.innerHTML += `<button type="button" title="Калорії" data-page="cal" class="menu-bnt"><img src="./img/ico/meal.png" alt="cal"><div class="content"><div class="info"><p class="user-done" id="cal-done"><span> ${currentCal} </span>ккал</p><p class="user-target" id="cal-target"> ${calTarget} </p></div><progress class="progress" id="cal-progress" max="${calTarget}" value="${currentCal}" /></div></button>`
+        menu.innerHTML += `<button type="button" title="Калорії" data-page="cal" class="menu-bnt ${firstLoad && ' first-load'}"><img src="./img/ico/meal.png" alt="cal"><div class="content"><div class="info"><p class="user-done" id="cal-done"><span> ${currentCal} </span>ккал</p><p class="user-target" id="cal-target"> ${calTarget} </p></div><progress class="progress food" id="cal-progress" max="${calTarget}" value="${currentCal}" /></div></button>`
         
         if(currentCal >= calTarget) menu.querySelector('#cal-progress').classList.add('done')
         else menu.querySelector('#cal-progress').classList.remove('done')
     }
     
     function noteButton(){
-        menu.innerHTML +=  "<button type=\"button\" data-page=\"note\" title=\"Нотатки\" class=\"menu-bnt\"><img src=\"./img/ico/diary.png\" alt=\"diary\"></button>";
+        menu.innerHTML +=  `<button type=\"button\" data-page=\"note\" title=\"Нотатки\" class=\"menu-bnt ${firstLoad && ' first-load'}\"><img src=\"./img/ico/diary.png\" alt=\"diary\"></button>`
     }
     
     function userButton(){
-        menu.innerHTML += "<button type=\"button\" id='profile' data-page=\"profile\" title=\"Профіль\" class=\"menu-bnt profile-btn\"><img src=\"./img/ico/user.png\" alt=\"user\"></button>";
+        menu.innerHTML += `<button type=\"button\" id='profile' data-page=\"profile\" title=\"Профіль\" class=\"menu-bnt profile-btn ${firstLoad && ' first-load'}\"><img src=\"./img/ico/user.png\" alt=\"user\"></button>`
     }
 }
 
