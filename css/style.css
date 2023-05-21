@@ -444,6 +444,8 @@ input[type=number] {
   position: relative;
   height: 100%;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
 }
 .cal-page .recomended {
   position: relative;
@@ -478,7 +480,8 @@ input[type=number] {
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  flex-grow: 1;
+  gap: 70px;
   padding: 35px;
   width: 100%;
   background-color: #0d1117;
@@ -488,8 +491,33 @@ input[type=number] {
   content: attr(placeholder);
 }
 .cal-page .main-info .unit {
+  position: relative;
   display: flex;
+  align-items: center;
   gap: 10px;
+  padding: 20px;
+  border-radius: 15px;
+  background-color: #21262D;
+  padding-right: 30px;
+  width: 25%;
+  overflow: hidden;
+  outline: 2px solid #21262D;
+}
+.cal-page .main-info .unit span::after {
+  content: "";
+  position: absolute;
+  cursor: pointer;
+  background-color: #0d1117;
+  background-image: url("../img/ico/edit.png");
+  background-size: cover;
+  background-size: 70%;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  bottom: 0;
+  right: 0;
+  width: 30px;
+  aspect-ratio: 1;
+  border-radius: 10px 0 0 0;
 }
 .cal-page .main-info #input-name {
   margin-right: 10px;
@@ -543,19 +571,6 @@ input[type=number] {
   flex-wrap: nowrap;
   width: 100%;
   gap: 20px;
-}
-.cal-page .main-info .line .col {
-  display: flex;
-  justify-content: space-between;
-  padding: 20px;
-  border-radius: 15px;
-  background-color: #21262D;
-}
-.cal-page .main-info .line .col:first-child {
-  width: calc(25% + 20px);
-}
-.cal-page .main-info .line .col:last-child {
-  width: calc(75% - 20px);
 }
 .cal-page .main-info h3 {
   font-weight: 400;
@@ -668,7 +683,7 @@ input[type=number] {
 .food-info,
 .water-info {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   justify-content: center;
   text-align: center;
   width: fit-content;
@@ -1092,77 +1107,6 @@ input[type=number] {
   padding-bottom: 10px;
   border-bottom: 2px solid white;
 }
-.water-page .water-hispory-popup .main {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: calc(100% - 45px);
-  width: 100%;
-}
-.water-page .water-hispory-popup .main-footer {
-  position: relative;
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: space-around;
-  width: 100%;
-  margin-bottom: 20px;
-  margin-top: 30px;
-}
-.water-page .water-hispory-popup .chart {
-  width: 100%;
-  height: 60%;
-}
-.water-page .water-hispory-popup .chart-options {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 20px;
-}
-.water-page .water-hispory-popup .chart-option input {
-  all: unset;
-  width: 0;
-  height: 0;
-  visibility: hidden;
-}
-.water-page .water-hispory-popup .chart-option input:checked + p {
-  color: white !important;
-  border-bottom: 2px solid white !important;
-}
-.water-page .water-hispory-popup .chart-option p {
-  transition: all 0.3s ease;
-  padding-bottom: 3px;
-  color: gray;
-  cursor: pointer;
-}
-.water-page .water-hispory-popup .water-chart-legend {
-  display: block;
-}
-.water-page .water-hispory-popup .water-chart-legend div {
-  position: relative;
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  line-height: normal;
-}
-.water-page .water-hispory-popup .water-chart-legend div:first-child {
-  margin-bottom: 10px;
-}
-.water-page .water-hispory-popup .water-chart-legend div:last-child::after, .water-page .water-hispory-popup .water-chart-legend div:first-child::after {
-  content: "";
-  margin-top: 2px;
-  position: relative;
-  display: block;
-  background-color: red;
-  height: 4px;
-  margin-left: 5px;
-  border-radius: 10px;
-  width: 50px;
-}
-.water-page .water-hispory-popup .water-chart-legend div:first-child::after {
-  background-color: #3175dd;
-}
 .water-page .popup {
   width: 100%;
   height: 100%;
@@ -1207,6 +1151,9 @@ input[type=number] {
   line-height: normal;
   font-weight: 600;
   width: fit-content;
+}
+.user-page .header .info .info-item span {
+  cursor: pointer;
 }
 .user-page .header .info p {
   display: inline;
@@ -1287,7 +1234,6 @@ input[type=number] {
   background-color: #0d1117;
   box-shadow: 3px 3px 10px black;
   border: 2px solid gray;
-  padding: 20px;
   width: 100%;
   flex-grow: 1;
   overflow-y: auto;
@@ -1296,9 +1242,10 @@ input[type=number] {
   position: relative;
   display: flex;
   flex-direction: column;
-  margin-top: 20px;
+  margin-top: 30px;
   background-color: #21262D;
-  border-radius: 20px;
+  outline: 10px solid #21262D;
+  border-radius: 20px 20px 0 0;
   padding: 20px;
   flex-grow: 1;
   overflow-y: scroll;
@@ -1330,16 +1277,17 @@ input[type=number] {
 .weight-page .main .history .time {
   font-size: 16px;
   line-height: normal;
+  margin-bottom: 10px;
 }
 .weight-page .main .history .history-info {
   display: flex;
   flex-wrap: nowrap;
-  gap: 20px;
+  gap: 40px;
 }
 .weight-page .main .history .info-item {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 5px;
 }
 .weight-page .main .history .info-item span {
   font-size: 18px;
@@ -1375,8 +1323,10 @@ input[type=number] {
   filter: invert(23%) sepia(99%) saturate(1734%) hue-rotate(97deg) brightness(102%) contrast(101%);
 }
 .weight-page .main .history .weight .arrow.r::before {
-  transform: scale(1, -1);
   filter: invert(11%) sepia(39%) saturate(10000%) hue-rotate(5deg) brightness(100%) contrast(90%);
+}
+.weight-page .main .history .weight .arrow.up::before {
+  transform: scale(1, -1);
 }
 .weight-page .main .history .col {
   display: flex;
@@ -1389,13 +1339,14 @@ input[type=number] {
   align-items: center;
   gap: 20px;
   margin: 0 auto;
+  margin-top: 30px;
 }
 .weight-page .main .main-btns label {
   all: unset;
   font-size: 16px;
   line-height: normal;
   cursor: pointer;
-  background-color: rgb(255, 102, 0);
+  background-color: rgb(205, 105, 12);
   padding: 10px 20px;
   border-radius: 20px;
   transition: all 0.3s ease;
@@ -1455,7 +1406,7 @@ input[type=number] {
   font-size: 20px;
   line-height: normal;
 }
-.weight-page .recomended h3 f {
+.weight-page .recomended h3 span {
   font-size: 14px;
   font-weight: 400;
   line-height: normal;
@@ -1464,4 +1415,153 @@ input[type=number] {
   all: unset;
   border-bottom: 2px solid gray;
   max-width: 5ch;
+}
+
+.weight-page .stat {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-grow: 1;
+}
+.weight-page .stat .footer {
+  position: relative;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-around;
+  width: 100%;
+  margin-bottom: 20px;
+  margin-top: 30px;
+}
+.weight-page .chart {
+  width: 100%;
+  height: 60%;
+}
+.weight-page .chart-options {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+}
+.weight-page .chart-option input {
+  all: unset;
+  width: 0;
+  height: 0;
+  visibility: hidden;
+}
+.weight-page .chart-option input:checked + p {
+  color: white !important;
+  border-bottom: 2px solid white !important;
+}
+.weight-page .chart-option p {
+  transition: all 0.3s ease;
+  padding-bottom: 3px;
+  color: gray;
+  cursor: pointer;
+}
+.weight-page .chart-legend {
+  display: block;
+}
+.weight-page .chart-legend div {
+  position: relative;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  line-height: normal;
+}
+.weight-page .chart-legend div:first-child {
+  margin-bottom: 10px;
+}
+.weight-page .chart-legend div:last-child::after, .weight-page .chart-legend div:first-child::after {
+  content: "";
+  margin-top: 2px;
+  position: relative;
+  display: block;
+  background-color: red;
+  height: 4px;
+  margin-left: 5px;
+  border-radius: 10px;
+  width: 50px;
+}
+.weight-page .chart-legend div:first-child::after {
+  background-color: #3175dd;
+}
+
+.water-page .main {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: calc(100% - 45px);
+  width: 100%;
+}
+.water-page .main-footer {
+  position: relative;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-around;
+  width: 100%;
+  margin-bottom: 20px;
+  margin-top: 30px;
+}
+.water-page .chart {
+  width: 100%;
+  height: 60%;
+}
+.water-page .chart-options {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+}
+.water-page .chart-option input {
+  all: unset;
+  width: 0;
+  height: 0;
+  visibility: hidden;
+}
+.water-page .chart-option input:checked + p {
+  color: white !important;
+  border-bottom: 2px solid white !important;
+}
+.water-page .chart-option p {
+  transition: all 0.3s ease;
+  padding-bottom: 3px;
+  color: gray;
+  cursor: pointer;
+}
+.water-page .chart-legend {
+  display: block;
+}
+.water-page .chart-legend div {
+  position: relative;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  line-height: normal;
+}
+.water-page .chart-legend div:first-child {
+  margin-bottom: 10px;
+}
+.water-page .chart-legend div:last-child::after, .water-page .chart-legend div:first-child::after {
+  content: "";
+  margin-top: 2px;
+  position: relative;
+  display: block;
+  background-color: red;
+  height: 4px;
+  margin-left: 5px;
+  border-radius: 10px;
+  width: 50px;
+}
+.water-page .chart-legend div:first-child::after {
+  background-color: #3175dd;
+}
+
+#chart-img {
+  max-width: 60%;
+  margin-right: -5px;
+  pointer-events: none;
 }/*# sourceMappingURL=style.css.map */

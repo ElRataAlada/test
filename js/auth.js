@@ -16,10 +16,30 @@ const auth = getAuth(app);
 const firestore = getFirestore(app);
 
 export function isUserLoggined(user) { return user && Object.keys(user).length > 5 && auth.currentUser}
-export async function authStateChanged(callback) { onAuthStateChanged(auth, await callback) }
+export async function authStateChanged(callback) { onAuthStateChanged(auth, async (u) => {
+    if (u) {     
+        user.photoURL = u.photoURL
+        user.history = {}
+        user.id = u.uid
+
+        const firebaseResp = await getUser(user.id)
+        
+        user =  firebaseResp ? firebaseResp : user
+        
+        if(!isUserLoggined(user)) showLoginPopup(true)
+        else writeUser(user)
+
+
+        if (!loginFormEmpty) submitLoginButton.removeAttribute('disabled')
+        
+    } else { showLoginPopup(false) }
+    
+    callback()
+})}
+
 export function logOut() { signOut(auth) }
 
-let user = {}
+export let user = {}
 
 const usersCollection = collection(firestore, 'users')
 
@@ -32,6 +52,7 @@ export async function writeUser(user){
         
         user.water.current = 0
         user.cal.current = 0
+        user.cal.meals = []
     }
 
     user.lastUpdate = now.getTime()
@@ -62,25 +83,7 @@ export async function getUser(id){
 let loginFormEmpty = true
 let submitLoginButton = null
 
-onAuthStateChanged(auth, async (u) => {
-    if (u) {     
-        user.photoURL = u.photoURL
-        user.history = {}
-        user.id = u.uid
-
-        const firebaseResp = await getUser(user.id)
-        
-        user =  firebaseResp ? firebaseResp : user
-        
-        if(!isUserLoggined(user)) showLoginPopup(true)
-        else writeUser(user)
-
-
-        if (!loginFormEmpty) submitLoginButton.removeAttribute('disabled')
-
-    } else { showLoginPopup(false) }
-});
-
+await authStateChanged(() => {})
 
 function showLoginPopup(enabled) {
     const inner = "<div class=\"popup\" id=\"auth-popup\"><form class=\"start-form\"><h2>Заповніть дані для продовження</h2><div class=\"start-form-wrapper\"><input type=\"text\" disabled required name=\"name\" id=\"name\" placeholder=\"Ім'я\"><input type=\"number\" disabled required name=\"age\" id=\"age\" placeholder=\"Вік\"><div class=\"sex-wrapper\"><label><input disabled checked value=\"male\" name=\"sex\" type=\"radio\"><p>Чоловік</p></label><label><input value=\"female\" disabled name=\"sex\" type=\"radio\"><p>Жінка</p></label></div><div class=\"mas-wrapper\"><input type=\"number\" disabled required name=\"height\" id=\"height\" placeholder=\"Зріст (см)\"><input type=\"number\" disabled required name=\"weight\" id=\"weight\" placeholder=\"Вага (кг)\"></div><div class=\"form-btns\"><button type=\"button\" id=\"google\" class=\"btn-google\"><img src=\"./img/ico/google.png\" alt=\"auth\"></button><button type=\"submit\" disabled class=\"btn-submit\">Продовжити</button></div></div></form></div>";
@@ -128,7 +131,7 @@ function showLoginPopup(enabled) {
             user.water = { current: 0, goal: 0 }
             Health.setRecomendedWater(user)
 
-            user.cal = { current: 0, goal: 0, fat: 0, prot: 0, carb: 0 }
+            user.cal = { current: 0, goal: 0, fat: 0, prot: 0, carb: 0, meals: [], allMeals: []}
             Health.setRecomendedCal(user)
 
             Health.countBMI(user)

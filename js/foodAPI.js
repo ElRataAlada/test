@@ -1,13 +1,17 @@
 import foodInfo from "../foods.json" assert {type: 'json'}
 
+import { user } from "./auth.js"
+
 export class FoodAPI {
+    static getFood(name) {
+        const loacalInfo = user?.cal?.allMeals || []
+        foodInfo.push(...loacalInfo)
 
-    static info = foodInfo
+        const info = [...new Map(foodInfo.map(item => [item['name'], item])).values()];
 
-    static getFood(name){
         const res = []
 
-        this.info.forEach(el => { if(el.name.toLowerCase().includes(name.toLowerCase())) res.push(el) })
+        info.forEach(el => { if(el.name.toLowerCase().includes(name.toLowerCase())) res.push(el) })
 
         res.sort((a, b) => a.name.localeCompare(b.name))
 

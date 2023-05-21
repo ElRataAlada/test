@@ -1,7 +1,6 @@
-import { isUserLoggined, authStateChanged, getUser, writeUser} from './auth.js'
+import { isUserLoggined, authStateChanged, user, writeUser} from './auth.js'
 
 export const mainRef = document.querySelector('main')
-export let user = {}
 
 import { waterPage } from './pages/waterPage.js'
 import { calPage } from './pages/calPage.js'
@@ -16,16 +15,12 @@ menu(false)
 
 document.querySelector('main').classList.add('loading')
 
-authStateChanged(async (u) => {
-    if(u){
-        user = await getUser(u.uid)
+authStateChanged(() => {
+    if(isUserLoggined(user)) writeUser(user)
         
-        if(isUserLoggined(user)) writeUser(user)
-        
-        document.querySelector('main').classList.remove('loading')
-        menu(true)
-        selectPage()
-    }
+    document.querySelector('main').classList.remove('loading')
+    menu(true)
+    selectPage()
 })
 
 export async function userStateChanged(){

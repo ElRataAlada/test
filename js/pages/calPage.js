@@ -1,8 +1,10 @@
+import { user } from '../auth.js'
 import { FoodAPI } from '../foodAPI.js'
-import { mainRef, round, user, userStateChanged } from '../index.js'
+import { mainRef, round, userStateChanged } from '../index.js'
+
 
 export function calPage(){
-    mainRef.innerHTML = '<div class="cal-page page"><div class="food-info"><label class="recomended"><h2>Рекомендована кількість в день</h2><h3><p id="food-recomended">0</p> <f>ккал</f></h3></label><label class="recomended goal"><h2>Бажана кількість</h2><h3><p id="food-goal">0</p> <f>ккал</f></h3><button class="edit" id="food-edit-goal"><img src="./img/ico/edit.png" alt="edit"></button></label></div><div class="main-info"><div class="line"><div class="search"><input class="input" type="text" id="input-name" autofocus placeholder="Назва продукту"><button type="button" class="search-btn" id="btn-search-food"><img src="./img/ico/search.png" alt="search"></button></div><div class="weight"><input class="input" type="number" id="input-weight" placeholder="Вага (г)"></div></div><div class="line"><div class="col"><div class="unit"><h3>Калорії (ккал):</h3><span class="span" id="span-cal">0</span></div></div><div class="col"><div class="unit"><h3>Білки (г):</h3><span class="span" id="span-prot">0</span></div><div class="unit"><h3>Жири (г):</h3><span class="span" id="span-fat">0</span></div><div class="unit"><h3>Вуглеводи (г):</h3><span class="span" id="span-carb">0</span></div></div></div><button type="button" class="eat-btn" id="eat-btn">Схавать</button></div></div>'
+    mainRef.innerHTML = `<div class="cal-page page"><div class="food-info"><label class="recomended"><h2>Рекомендована кількість в день</h2><h3><p id="food-recomended">0</p><f>ккал</f></h3></label><label class="recomended goal"><h2>Бажана кількість</h2><h3><p id="food-goal">0</p><f>ккал</f></h3><button class="edit" id="food-edit-goal"><img src="./img/ico/edit.png" alt="edit"></button></label></div><div class="main-info"><div class="line"><div class="search"><input class="input" type="text" id="input-name" autofocus placeholder="Назва продукту"><button type="button" class="search-btn" id="btn-search-food"><img src="./img/ico/search.png" alt="search"></button></div><div class="weight"><input class="input" type="number" id="input-weight" placeholder="Вага (г)"></div></div><div class="line"><div class="unit"> <h3>Калорії (ккал):</h3><span class="span" id="span-cal">0</span> </div><div class="unit"> <h3>Білки (г):</h3><span class="span" id="span-prot">0</span> </div><div class="unit"> <h3>Жири (г):</h3><span class="span" id="span-fat">0</span> </div><div class="unit"> <h3>Вуглеводи (г):</h3><span class="span" id="span-carb">0</span> </div></div><button type="button" class="eat-btn" id="eat-btn">З'їсти</button></div></div></div>`
 
     const eatBtn = mainRef.querySelector('#eat-btn')
 
@@ -60,6 +62,9 @@ export function calPage(){
         const val = e.target.value || 0
 
         if(e.key == 'Enter'){
+            e.target.blur()
+        }
+        else if(e.type == 'blur'){
             e.target.insertAdjacentHTML('afterend', `<span class="span" id="${"span-" + e.target.id.split('-')[1]}">${val}</span>`)
             e.target.remove()
             mainRef.querySelector(`#${"span-" + e.target.id.split('-')[1]}`).addEventListener('click', spanHandler)
@@ -85,7 +90,7 @@ export function calPage(){
         cSpan.insertAdjacentElement('afterend', input)
 
         input.addEventListener('keydown', inputHandler)
-        
+        input.addEventListener('blur', inputHandler)
         input.focus()
         
         cSpan.remove()
@@ -95,6 +100,7 @@ export function calPage(){
         const name = inputName.value || ''
 
         const cal = +spanCal.innerHTML || 0
+        const w = +weight.value || 0
 
         const prot = +spanProt.innerHTML || 0
         const fat = +spanFat.innerHTML || 0
@@ -102,24 +108,33 @@ export function calPage(){
 
         console.log(name, cal, prot, fat, carb)
 
-        if(!name || !cal || !prot || !fat || !carb) return
+        if(!name || !cal || !prot || !fat || !carb || !w) return
 
         user.cal.current += cal
         user.cal.prot += prot
         user.cal.fat += fat
         user.cal.carb += carb
-
-        user.cal.meals.push({
+        
+        const meal = {
             name: name,
-            cal: cal,
-            prot: prot,
-            fat: fat,
-            carb: carb,
-            weight: +weight.value || 0,
+            cal: cal / (w/100),
+            prot: prot / (w/100),
+            fat: fat / (w/100),
+            carb: carb / (w/100),
+            weight: w,
             time: new Date().getTime()
-        })
+        }
 
-        console.log(user.cal)
+        user.cal.meals.push(meal)
+        user.cal.allMeals.push(meal)
+
+        inputName.value = ''
+        weight.value = ''
+
+        spanCal.innerHTML = '0'
+        spanCarb.innerHTML = '0'
+        spanFat.innerHTML = '0'
+        spanProt.innerHTML = '0'
 
         userStateChanged()
     })

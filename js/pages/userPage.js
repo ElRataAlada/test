@@ -1,6 +1,6 @@
-import { logOut, writeUser } from '../auth.js'
+import { logOut, user } from '../auth.js'
 import { Health } from '../health.js'
-import { mainRef, user, userStateChanged } from '../index.js'
+import { mainRef, userStateChanged } from '../index.js'
 
 export function userPage(){
     mainRef.innerHTML = ''
@@ -60,6 +60,8 @@ export function userPage(){
                     Health.setRecomendedCal(user)
                     Health.setRecomendedWater(user)
                     Health.countBMI(user)
+
+                    
                 }
                 else if(id === 'height') {
                     user.height = +e.currentTarget.value
