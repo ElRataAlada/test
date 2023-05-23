@@ -352,6 +352,7 @@ main {
             background-color: #21262D;
 
             img {
+                pointer-events: none;
                 max-width: 40px;
                 aspect-ratio: 1;
             }

@@ -16,26 +16,32 @@ const auth = getAuth(app);
 const firestore = getFirestore(app);
 
 export function isUserLoggined(user) { return user && Object.keys(user).length > 5 && auth.currentUser}
-export async function authStateChanged(callback) { onAuthStateChanged(auth, async (u) => {
-    if (u) {     
-        user.photoURL = u.photoURL
-        user.history = {}
-        user.id = u.uid
 
-        const firebaseResp = await getUser(user.id)
-        
-        user =  firebaseResp ? firebaseResp : user
-        
-        if(!isUserLoggined(user)) showLoginPopup(true)
-        else writeUser(user)
+export function authStateChanged(callback) {
+    onAuthStateChanged(auth, async (u) => {
+        if (u) {     
+            user.photoURL = u.photoURL
+            user.history = {}
+            user.id = u.uid
+
+            const firebaseResp = await getUser(user.id)
+            
+            user =  firebaseResp ? firebaseResp : user
+
+            console.log(user)
+            
+            if(!isUserLoggined(user)) showLoginPopup(true)
+            else writeUser(user)
+
+            if (!loginFormEmpty) submitLoginButton.removeAttribute('disabled')
 
 
-        if (!loginFormEmpty) submitLoginButton.removeAttribute('disabled')
+            callback()
+                
+        } else { showLoginPopup(false) }
         
-    } else { showLoginPopup(false) }
-    
-    callback()
-})}
+    })
+}
 
 export function logOut() { signOut(auth) }
 
@@ -82,8 +88,6 @@ export async function getUser(id){
 
 let loginFormEmpty = true
 let submitLoginButton = null
-
-await authStateChanged(() => {})
 
 function showLoginPopup(enabled) {
     const inner = "<div class=\"popup\" id=\"auth-popup\"><form class=\"start-form\"><h2>Заповніть дані для продовження</h2><div class=\"start-form-wrapper\"><input type=\"text\" disabled required name=\"name\" id=\"name\" placeholder=\"Ім'я\"><input type=\"number\" disabled required name=\"age\" id=\"age\" placeholder=\"Вік\"><div class=\"sex-wrapper\"><label><input disabled checked value=\"male\" name=\"sex\" type=\"radio\"><p>Чоловік</p></label><label><input value=\"female\" disabled name=\"sex\" type=\"radio\"><p>Жінка</p></label></div><div class=\"mas-wrapper\"><input type=\"number\" disabled required name=\"height\" id=\"height\" placeholder=\"Зріст (см)\"><input type=\"number\" disabled required name=\"weight\" id=\"weight\" placeholder=\"Вага (кг)\"></div><div class=\"form-btns\"><button type=\"button\" id=\"google\" class=\"btn-google\"><img src=\"./img/ico/google.png\" alt=\"auth\"></button><button type=\"submit\" disabled class=\"btn-submit\">Продовжити</button></div></div></form></div>";
@@ -142,9 +146,9 @@ function showLoginPopup(enabled) {
         }
     })
 
-    document.getElementById('google').addEventListener('click', async (e) => {
+    document.querySelector('#google').addEventListener('click', async (e) => {
         e.preventDefault()
-
+        
         await signInWithPopup(auth, new GoogleAuthProvider())
         window.location.reload()
     })

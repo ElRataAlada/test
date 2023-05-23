@@ -6,80 +6,6 @@ import { mainRef, round, userStateChanged } from '../index.js'
 let isHistory = true
 let isStat = false
 
-function updatePage(){
-    const minW = mainRef.querySelector('#min-w')
-    const maxW = mainRef.querySelector('#max-w')
-    const BMI = mainRef.querySelector('#BMI')
-    
-    const recomendedW = mainRef.querySelector('#weight-recomended')
-    const currentW = mainRef.querySelector('#weight-current')
-    const goalW = mainRef.querySelector('#weight-goal')
-    
-    currentW.innerHTML = round(user?.weight?.current || 0)
-    recomendedW.innerHTML = round(user?.weight?.recomended || 0)
-    goalW.innerHTML = round(user?.weight?.goal || 0)
-    
-    minW.innerHTML = round(user?.weight?.min || 0)
-    maxW.innerHTML = round(user?.weight?.max || 0)
-    BMI.innerHTML = round(user?.weight?.BMI || 0)
-    
-    if(isHistory){
-        try{ mainRef.querySelector('.history').remove();  } catch(e){ }
-        try{ mainRef.querySelector('.stat').remove() } catch(e){ }
-        
-        const h = []
-        const history = user?.history || {}
-        
-        const date = new Date()
-        date.setHours(0,0,0,0)
-        
-        history[date.getTime()] = { weight: user.weight }
-        
-        for(const key in  history){
-            const el = history[key]
-            
-            if(+key > date.getTime()) continue
-            
-            h.push({ val: el?.weight, time: +key })
-        }
-        
-        h.sort((a, b) => a.time - b.time)    
-        
-        let cw = 0
-        const newH = []
-        for(const el of h ){
-            const w = +el.val?.current || 0
-            
-            if(cw === w) continue
-            
-            newH.push({ val: el.val, time: el.time })
-            
-            cw = w
-        }
-        
-        mainRef.querySelector('.main').insertAdjacentHTML('beforeend', '<div class="history"></div>')
-        
-        newH.forEach(el => historyItem(el))
-    } 
-    else if( isStat ){
-        try{ mainRef.querySelector('.stat').remove() } catch(e){ }
-        try{ mainRef.querySelector('.history').remove();  } catch(e){ }
-
-        
-        mainRef.querySelector('.main').insertAdjacentHTML('beforeend', '<div class="stat"> <div id="main-weight-chart" class="chart"></div> <div class="footer"><div class="chart-options"> <label class = "chart-option"><input class="option-chart" type="radio" checked name="option" value="7"/><p>7 д.</p></label><label class = "chart-option"><input class="option-chart" type="radio" name="option" value="30"/><p>30 д.</p></label><label class = "chart-option"><input class="option-chart" type="radio" name="option" value="365"/><p>1 рік</p></label><label class = "chart-option"><input class="option-chart" type="radio" name="option" value="0"/><p>Весь час</p></label></div><div class="chart-legend"> <div>Було випито</div><div>Ціль</div></div></div></div>')
-        
-        weightHistoryChart(user, 7)
-
-        mainRef.querySelector('.chart-options').addEventListener('click', (e) => {
-            const value = document.querySelector('input[name="option"]:checked').value;
-            
-            weightHistoryChart(user, +value)
-        })
-    }
-    
-    paintBMI()
-}
-
 export function weightPage(){
     isHistory = true
     isStat = false
@@ -225,6 +151,80 @@ export function weightPage(){
             return p
         }
     })
+}
+
+function updatePage(){
+    const minW = mainRef.querySelector('#min-w')
+    const maxW = mainRef.querySelector('#max-w')
+    const BMI = mainRef.querySelector('#BMI')
+    
+    const recomendedW = mainRef.querySelector('#weight-recomended')
+    const currentW = mainRef.querySelector('#weight-current')
+    const goalW = mainRef.querySelector('#weight-goal')
+    
+    currentW.innerHTML = round(user?.weight?.current || 0)
+    recomendedW.innerHTML = round(user?.weight?.recomended || 0)
+    goalW.innerHTML = round(user?.weight?.goal || 0)
+    
+    minW.innerHTML = round(user?.weight?.min || 0)
+    maxW.innerHTML = round(user?.weight?.max || 0)
+    BMI.innerHTML = round(user?.weight?.BMI || 0)
+    
+    if(isHistory){
+        try{ mainRef.querySelector('.history').remove();  } catch(e){ }
+        try{ mainRef.querySelector('.stat').remove() } catch(e){ }
+        
+        const h = []
+        const history = user?.history || {}
+        
+        const date = new Date()
+        date.setHours(0,0,0,0)
+        
+        history[date.getTime()] = { weight: user.weight }
+        
+        for(const key in  history){
+            const el = history[key]
+            
+            if(+key > date.getTime()) continue
+            
+            h.push({ val: el?.weight, time: +key })
+        }
+        
+        h.sort((a, b) => a.time - b.time)    
+        
+        let cw = 0
+        const newH = []
+        for(const el of h ){
+            const w = +el.val?.current || 0
+            
+            if(cw === w) continue
+            
+            newH.push({ val: el.val, time: el.time })
+            
+            cw = w
+        }
+        
+        mainRef.querySelector('.main').insertAdjacentHTML('beforeend', '<div class="history"></div>')
+        
+        newH.forEach(el => historyItem(el))
+    } 
+    else if( isStat ){
+        try{ mainRef.querySelector('.stat').remove() } catch(e){ }
+        try{ mainRef.querySelector('.history').remove();  } catch(e){ }
+
+        
+        mainRef.querySelector('.main').insertAdjacentHTML('beforeend', '<div class="stat"> <div id="main-weight-chart" class="chart"></div> <div class="footer"><div class="chart-options"> <label class = "chart-option"><input class="option-chart" type="radio" checked name="option" value="7"/><p>7 д.</p></label><label class = "chart-option"><input class="option-chart" type="radio" name="option" value="30"/><p>30 д.</p></label><label class = "chart-option"><input class="option-chart" type="radio" name="option" value="365"/><p>1 рік</p></label><label class = "chart-option"><input class="option-chart" type="radio" name="option" value="0"/><p>Весь час</p></label></div><div class="chart-legend"> <div>Було випито</div><div>Ціль</div></div></div></div>')
+        
+        weightHistoryChart(user, 7)
+
+        mainRef.querySelector('.chart-options').addEventListener('click', (e) => {
+            const value = document.querySelector('input[name="option"]:checked').value;
+            
+            weightHistoryChart(user, +value)
+        })
+    }
+    
+    paintBMI()
 }
 
 let prev = null

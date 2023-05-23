@@ -1,4 +1,4 @@
-import { isUserLoggined, authStateChanged, user, writeUser} from './auth.js'
+import { authStateChanged, isUserLoggined, user, writeUser} from './auth.js'
 
 export const mainRef = document.querySelector('main')
 
@@ -16,12 +16,12 @@ menu(false)
 document.querySelector('main').classList.add('loading')
 
 authStateChanged(() => {
-    if(isUserLoggined(user)) writeUser(user)
-        
+    console.log(user)
     document.querySelector('main').classList.remove('loading')
     menu(true)
     selectPage()
 })
+
 
 export async function userStateChanged(){
     await writeUser(user)
@@ -50,10 +50,9 @@ function menu(isUser){
         buttonLoading()
 
         buttonLoadingUser()
+        return
     }
 
-    if(!isUser) return
-    
     const menuBtns = document.querySelectorAll('.menu-bnt')
 
     menuBtns.forEach(btn => {
@@ -80,7 +79,7 @@ function menu(isUser){
     if(isUserLoggined(user)){
         profileBtn.innerHTML = `<img src=${user.photoURL} alt=\"user\" class="user-photo"> <h2>${user.name}</h2>`
     }
-
+    
     function buttonLoading(){
         menu.innerHTML += `<button type="button" title="Завантаження" class="menu-bnt loading"></button>`;
     }

@@ -343,6 +343,7 @@ main.loading {
   background-color: #21262D;
 }
 .start-form .form-btns .btn-google img {
+  pointer-events: none;
   max-width: 40px;
   aspect-ratio: 1;
 }
