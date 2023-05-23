@@ -33,6 +33,8 @@ export function waterHistoryChart(user, lenght){
         waterData = waterData.sort((arr1, arr2) => arr1[0] - arr2[0])
         const yearWaterData = []
 
+        if(waterData.length === 0) return null
+
         if(lenght === 7){
             waterData = waterData.map(arr => {
                 const date = new Date(+arr[0])
@@ -84,11 +86,13 @@ export function waterHistoryChart(user, lenght){
         }
 
         const wdata = lenght === 365 || lenght === 0 ? yearWaterData : waterData
+        if(wdata.length === 0) return null
   
         const data = new google.visualization.arrayToDataTable([
             ['date', 'Було випито', 'Ціль'],
             ...wdata
         ]);
+
 
         document.getElementById('main-water-chart').innerHTML = ''
         
@@ -122,11 +126,11 @@ export function waterHistoryChart(user, lenght){
     }
 }
 export function weightHistoryChart(user, lenght){
-    if(!user || Object.keys(user.history).length <= 0) return
+    if(!user || Object.keys(user.history).length <= 0) return null
     
     google.charts.load('current', {'packages':['corechart']})
     google.charts.setOnLoadCallback(DWH)
-
+    
     function DWH(){
         let weightData = []
 
@@ -155,6 +159,8 @@ export function weightHistoryChart(user, lenght){
 
         weightData = weightData.sort((arr1, arr2) => arr1[0] - arr2[0])
         const yearWeightData = []
+
+        if(weightData.length === 0) return null
 
         if(lenght === 7){
             weightData = weightData.map(arr => {
@@ -208,6 +214,7 @@ export function weightHistoryChart(user, lenght){
 
         const wdata = lenght === 365 || lenght === 0 ? yearWeightData : weightData
 
+        if(wdata.length === 0) return null
             
         const data = new google.visualization.arrayToDataTable([
             ['date', 'Вага', 'Ціль'],

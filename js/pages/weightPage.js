@@ -215,7 +215,7 @@ function updatePage(){
         
         mainRef.querySelector('.main').insertAdjacentHTML('beforeend', '<div class="stat"> <div id="main-weight-chart" class="chart"></div> <div class="footer"><div class="chart-options"> <label class = "chart-option"><input class="option-chart" type="radio" checked name="option" value="7"/><p>7 д.</p></label><label class = "chart-option"><input class="option-chart" type="radio" name="option" value="30"/><p>30 д.</p></label><label class = "chart-option"><input class="option-chart" type="radio" name="option" value="365"/><p>1 рік</p></label><label class = "chart-option"><input class="option-chart" type="radio" name="option" value="0"/><p>Весь час</p></label></div><div class="chart-legend"> <div>Було випито</div><div>Ціль</div></div></div></div>')
         
-        weightHistoryChart(user, 7)
+        const resp = weightHistoryChart(user, 7)
 
         mainRef.querySelector('.chart-options').addEventListener('click', (e) => {
             const value = document.querySelector('input[name="option"]:checked').value;

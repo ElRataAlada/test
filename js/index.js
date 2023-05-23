@@ -16,7 +16,6 @@ menu(false)
 document.querySelector('main').classList.add('loading')
 
 authStateChanged(() => {
-    console.log(user)
     document.querySelector('main').classList.remove('loading')
     menu(true)
     selectPage()
@@ -38,7 +37,7 @@ function menu(isUser){
         weightButton(round(user?.weight?.current || 0), round(user?.weight?.target || 0))
         waterButton(round(user?.water?.current || 0), round(user?.water?.target || 0))
         caloriesButton(round(user?.cal?.current || 0), round(user?.cal?.target || 0))
-        noteButton()
+        // noteButton()
         
         userButton()
 
@@ -47,7 +46,7 @@ function menu(isUser){
         buttonLoading()
         buttonLoading()
         buttonLoading()
-        buttonLoading()
+        // buttonLoading()
 
         buttonLoadingUser()
         return

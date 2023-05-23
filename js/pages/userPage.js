@@ -60,8 +60,6 @@ export function userPage(){
                     Health.setRecomendedCal(user)
                     Health.setRecomendedWater(user)
                     Health.countBMI(user)
-
-                    
                 }
                 else if(id === 'height') {
                     user.height = +e.currentTarget.value

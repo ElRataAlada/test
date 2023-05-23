@@ -14,6 +14,7 @@ export function calPage(){
     const weight = mainRef.querySelector('#input-weight')
 
     const inputName = mainRef.querySelector('#input-name')
+    let autoWEL = true
     let spanCal = mainRef.querySelector('#span-cal')
     let spanProt = mainRef.querySelector('#span-prot')
     let spanFat = mainRef.querySelector('#span-fat')
@@ -23,11 +24,13 @@ export function calPage(){
     let isSelectOpen = false
     mainRef.querySelector('#food-edit-goal').addEventListener('click', editGoalHandler)
 
+    inputName.addEventListener('input', (e) => {autoWEL = false; console.log(autoWEL)})
+
     function editGoalHandler(e){
         const foodEditGoal = mainRef.querySelector('#food-goal')
 
         if(isEditGoal) {
-            foodEditGoal.insertAdjacentHTML('afterbegin', `<p id="food-goal">${user?.cal?.goal || 0}</p>`)
+            foodEditGoal.insertAdjacentHTML('afterbegin', `<p id="food-goal">${round(user?.cal?.goal || 0)}</p>`)
             foodEditGoal.querySelector('#food-goal').addEventListener('click', editGoalHandler)
             mainRef.querySelector('#food-edit-goal-input').remove()
             isEditGoal = false
@@ -48,7 +51,7 @@ export function calPage(){
                     userStateChanged()
                     
                     input.remove()
-                    foodEditGoal.innerHTML = user.cal.goal || 0
+                    foodEditGoal.innerHTML = round(user.cal.goal || 0)
                     isEditGoal = false
                 }
             })
@@ -105,8 +108,6 @@ export function calPage(){
         const prot = +spanProt.innerHTML || 0
         const fat = +spanFat.innerHTML || 0
         const carb = +spanCarb.innerHTML || 0
-
-        console.log(name, cal, prot, fat, carb)
 
         if(!name || !cal || !prot || !fat || !carb || !w) return
 
@@ -171,7 +172,7 @@ export function calPage(){
                 if(!isSelectOpen) foodSelectInput.insertAdjacentHTML('afterend', '<div class="info" id="select-info">Назва <span>Ккал</span></div>')
                 
                 products.forEach(prod => {
-                    foodSelectOptions.innerHTML += `<div><p>${prod.name}</p><span>${prod.cal}</span></div>`
+                    foodSelectOptions.innerHTML += `<div><p>${prod.name}</p><span>${round(+prod.cal || 0)}</span></div>`
                 })
                 
                 foodSelectOptions.querySelectorAll('div').forEach(el => el.addEventListener('click', (e) => {
@@ -181,10 +182,11 @@ export function calPage(){
                     
                     const meal = FoodAPI.getFood(query)[0]
                     passData(meal)
+                    autoWEL = true
 
                     weight.addEventListener('input', (e)=>{
                         const val = +e.target.value || 0
-                        passData(meal, val)
+                        if(autoWEL) passData(meal, val)
                     })
 
                     search.removeChild(search.querySelector('.food-select'))
@@ -221,6 +223,6 @@ function updatePage(){
     const foodRecomended = mainRef.querySelector('#food-recomended')
     const foodGoal = mainRef.querySelector('#food-goal')
 
-    foodRecomended.innerHTML = user?.cal?.recomended || 0
-    foodGoal.innerHTML = user?.cal?.goal || 0
+    foodRecomended.innerHTML = round(user?.cal?.recomended || 0)
+    foodGoal.innerHTML = round(user?.cal?.goal || 0)
 }

@@ -28,8 +28,6 @@ export function authStateChanged(callback) {
             
             user =  firebaseResp ? firebaseResp : user
 
-            console.log(user)
-            
             if(!isUserLoggined(user)) showLoginPopup(true)
             else writeUser(user)
 
@@ -128,6 +126,7 @@ function showLoginPopup(enabled) {
             user.age = +age
             user.height = +height
             user.sex = sex
+            user.history = {}
 
             user.weight = { current: +weight, goal: 0, min: +weight, max: +weight }
             Health.setRecomendedWeight(user)
