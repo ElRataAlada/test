@@ -436,6 +436,7 @@ menu {
 
     progress::-webkit-progress-bar {
         border: 0;
+        border-radius: 8px;
         background-color: #eee;
         height: $progress-height;
         border-radius: $progress-radius;
@@ -444,6 +445,7 @@ menu {
 
     progress::-webkit-progress-value {
         border: 0;
+        border-radius: 8px;
         background-color: #3175dd;
         height: $progress-height;
         border-radius: $progress-radius;
@@ -451,6 +453,7 @@ menu {
 
     progress.food::-webkit-progress-value {
         border: 0;
+        border-radius: 8px;
         background-color: orange;
         height: $progress-height;
         border-radius: $progress-radius;
@@ -458,6 +461,7 @@ menu {
 
     progress::-moz-progress-bar {
         border: 0;
+        border-radius: 8px;
         height: $progress-height;
         border-radius: $progress-radius;
     }

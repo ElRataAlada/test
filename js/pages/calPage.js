@@ -46,7 +46,7 @@ export function calPage() {
     let isSelectOpen = false
     mainRef.querySelector('#food-edit-goal').addEventListener('click', editGoalHandler)
 
-    inputName.addEventListener('input', (e) => { autoWEL = false; console.log(autoWEL) })
+    inputName.addEventListener('input', (e) => autoWEL = false)
 
     function editGoalHandler(e) {
         const foodEditGoal = mainRef.querySelector('#food-goal')
@@ -149,7 +149,7 @@ export function calPage() {
         }
 
         user.cal.meals.push(meal)
-        user.cal.allMeals.push(meal)
+        user.allMeals.push(meal)
 
         inputName.value = ''
         weight.value = ''
@@ -279,6 +279,7 @@ function updatePage() {
     if (!isHistoryOpen) return
 
     const h = user?.history || {}
+    const harr = []
     const history = mainRef.querySelector('.history')
 
     history.innerHTML = ''
@@ -286,16 +287,86 @@ function updatePage() {
     for (const tkey in h) {
         const cal = h[tkey].cal?.meals || []
 
-        cal.forEach(c => addHistoryItem(c))
+        if (cal.length) harr.push(...cal)
     }
 
-    user.cal.meals.forEach(c => addHistoryItem(c))
+    harr.push(...user.cal.meals)
+
+    harr.sort((a, b) => a?.time - b?.time)
+
+    console.log(harr)
+
+    harr.forEach(c => addHistoryItem(c))
+
+    history.querySelectorAll(".delete-btn").forEach(b => {
+        b.addEventListener('click', async  e => {
+            e.preventDefault()
+
+            const item = e.currentTarget.parentElement.parentElement
+
+            const time = item.dataset.time
+
+            let i = -1
+
+            user.cal.meals.forEach((el, j) => { if (+el.time === +time) { i = j; return } })
+
+            if(i >= 0) {
+                const meal = user.cal.meals[i]
+
+                user.cal.current -= meal.cal * (meal.weight/100)
+                user.cal.prot -= meal.prot * (meal.weight/100)
+                user.cal.fat -= meal.fat * (meal.weight/100)
+                user.cal.carb -= meal.carb * (meal.weight/100)
+
+                if(user.cal.current < 0) user.cal.current = 0
+                if(user.cal.prot < 0) user.cal.prot = 0
+                if(user.cal.fat < 0) user.cal.fat = 0
+                if(user.cal.carb < 0) user.cal.carb = 0
+                
+                user.cal.meals.splice(i, 1) 
+
+                await userStateChanged() 
+                updatePage()
+                return
+            }
+            else if(i === -1){
+                let t = 0;
+
+                for(const tkey in user.history){
+                    const meals = user.history[tkey].cal?.meals || []
+
+                    meals.forEach((el, j) => { if (+el.time === +time) { i = j; t = tkey; return } })
+                }
+
+                if(i >= 0) {
+                    const meal = user.history[t].cal.meals[i]
+                    user.history[t].cal.current -= meal.cal * (meal.weight/100)
+
+                    user.history[t].cal.current -= meal.cal * (meal.weight/100)
+                    user.history[t].cal.prot -= meal.prot * (meal.weight/100)
+                    user.history[t].cal.fat -= meal.fat * (meal.weight/100)
+                    user.history[t].cal.carb -= meal.carb * (meal.weight/100)
+    
+                    if(user.history[t].cal.current < 0) user.cal.current = 0
+                    if(user.history[t].cal.prot < 0) user.cal.prot = 0
+                    if(user.history[t].cal.fat < 0) user.cal.fat = 0
+                    if(user.history[t].cal.carb < 0) user.cal.carb = 0
+                    
+                    user.history[t].cal.meals.splice(i, 1) 
+
+                    await userStateChanged() 
+                    updatePage()
+                    return
+                }
+            }
+        })
+    })
 }
 
 function addHistoryItem(item) {
     let date = new Date(item.time)
 
     const history = mainRef.querySelector('.history')
-    const w = item.weight/100
-    history.insertAdjacentHTML('afterbegin', `<div class="item" title="Білки: ${round(item.fat * w)}г\nЖири: ${round(item.fat * w)}г\nВуглеводи: ${round(item.carb * w)}г"><div class="col"><div class="time">${date.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })}</div><div class="history-info"><div class="info-item name"><span>${item?.name || "-"}</span></div></div></div><div class="col"><div class="weight"><span>${round(+item?.weight || 0)}</span><p>г</p></div><div class="weight"><span>${round((+item?.cal * +item?.weight / 100) || 0)}</span><p>ккал</p></div><button type="button" class="delete-btn"><img src="../img/ico/binb.png" alt="del"></button></div>`)
+    const w = item.weight / 100
+    history.insertAdjacentHTML('afterbegin', `<div class="item" data-time="${item.time}" title="Білки: ${round(item.fat * w)}г\nЖири: ${round(item.fat * w)}г\nВуглеводи: ${round(item.carb * w)}г"><div class="col"><div class="time">${date.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })}</div><div class="history-info"><div class="info-item name"><span>${item?.name || "-"}</span></div></div></div><div class="col"><div class="weight"><span>${round(+item?.weight || 0)}</span><p>г</p></div><div class="weight"><span>${round((+item?.cal * +item?.weight / 100) || 0)}</span><p>ккал</p></div><button type="button" class="delete-btn"><img src="../img/ico/binb.png" alt="del"></button></div>`)
 }

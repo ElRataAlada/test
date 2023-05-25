@@ -52,7 +52,7 @@ export async function writeUser(user){
     now.setHours(0,0,0,0)
 
     if(now.getTime() - user.lastUpdate >= 1000*60*60*24){
-        writeOldData(user, user.lastUpdate)
+        await writeOldData(user, user.lastUpdate)
         
         user.water.current = 0
         user.cal.current = 0
@@ -72,7 +72,7 @@ export async function writeOldData(user, date){
         water: user.water,
         weight: user.weight,
     }
-    
+
     await updateDoc(doc(usersCollection, `${user.id}`), { ...user, history})
 }
 
@@ -127,6 +127,7 @@ function showLoginPopup(enabled) {
             user.height = +height
             user.sex = sex
             user.history = {}
+            user.allMeals = []
 
             user.weight = { current: +weight, goal: 0, min: +weight, max: +weight }
             Health.setRecomendedWeight(user)
@@ -134,7 +135,7 @@ function showLoginPopup(enabled) {
             user.water = { current: 0, goal: 0 }
             Health.setRecomendedWater(user)
 
-            user.cal = { current: 0, goal: 0, fat: 0, prot: 0, carb: 0, meals: [], allMeals: []}
+            user.cal = { current: 0, goal: 0, fat: 0, prot: 0, carb: 0, meals: [] }
             Health.setRecomendedCal(user)
 
             Health.countBMI(user)
