@@ -4,7 +4,6 @@ export const mainRef = document.querySelector('main')
 
 import { waterPage } from './pages/waterPage.js'
 import { calPage } from './pages/calPage.js'
-import { notePage } from './pages/notePage.js'
 import { userPage } from './pages/userPage.js'
 import { weightPage } from './pages/weightPage.js'
 
@@ -37,7 +36,6 @@ function menu(isUser){
         weightButton(round(user?.weight?.current || 0), round(user?.weight?.target || 0))
         waterButton(round(user?.water?.current || 0), round(user?.water?.target || 0))
         caloriesButton(round(user?.cal?.current || 0), round(user?.cal?.target || 0))
-        // noteButton()
         
         userButton()
 
@@ -46,7 +44,6 @@ function menu(isUser){
         buttonLoading()
         buttonLoading()
         buttonLoading()
-        // buttonLoading()
 
         buttonLoadingUser()
         return
@@ -105,10 +102,6 @@ function menu(isUser){
         else menu.querySelector('#cal-progress').classList.remove('done')
     }
     
-    function noteButton(){
-        menu.innerHTML +=  `<button type=\"button\" data-page=\"note\" title=\"Нотатки\" class=\"menu-bnt ${firstLoad && ' first-load'}\"><img src=\"./img/ico/diary.png\" alt=\"diary\"></button>`
-    }
-    
     function userButton(){
         menu.innerHTML += `<button type=\"button\" id='profile' data-page=\"profile\" title=\"Профіль\" class=\"menu-bnt profile-btn ${firstLoad && ' first-load'}\"><img src=\"./img/ico/user.png\" alt=\"user\"></button>`
     }
@@ -128,10 +121,6 @@ function selectPage(page = 'weight'){
                 
         case 'cal':
             calPage()
-            break;
-
-        case 'note':
-            notePage()
             break;
 
         case 'profile':
