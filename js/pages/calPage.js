@@ -7,7 +7,7 @@ let isStatOpen = false
 let isHistoryOpen = false
 
 export function calPage() {
-    mainRef.innerHTML = `<div class="cal-page page"><div class="food-info"><label class="recomended"><h2>Рекомендована кількість в день</h2><h3><p id="food-recomended">0</p><f>ккал</f></h3></label><label class="recomended goal"><h2>Бажана кількість</h2><h3><p id="food-goal">0</p><f>ккал</f></h3><button class="edit" id="food-edit-goal"><img src="./img/ico/edit.png" alt="edit"></button></label></div><div class="main-info"><div class="line"><div class="search"><input class="input" type="text" id="input-name" autofocus placeholder="Назва продукту"><button type="button" class="search-btn" id="btn-search-food"><img src="./img/ico/search.png" alt="search"></button></div><div class="weight"><input class="input" type="number" id="input-weight" placeholder="Вага (г)"></div><button type="button" class="eat-btn" id="eat-btn">З'їсти</button></div><div class="line"><div class="unit"> <h3>Калорії (ккал):</h3><span class="span" id="span-cal">0</span> </div><div class="unit"> <h3>Білки (г):</h3><span class="span" id="span-prot">0</span> </div><div class="unit"> <h3>Жири (г):</h3><span class="span" id="span-fat">0</span> </div><div class="unit"> <h3>Вуглеводи (г):</h3><span class="span" id="span-carb">0</span> </div></div></div><div class="cal-btns"><button type="button" class="history-btn" id="cal-history-btn"><img id="chart-img" src="./img/ico/clock.png" alt=""></button><button type="button" class="history-btn" id="cal-stat-btn"><img id="chart-img" src="./img/ico/chart.png" alt=""></button></div></div></div>`
+    mainRef.innerHTML = `<div class="cal-page page"><div class="food-info"><label class="recomended"><h2>Рекомендована кількість в день</h2><h3><p id="food-recomended">0</p><f>ккал</f></h3></label><label class="recomended goal"><h2>Бажана кількість</h2><h3><p id="food-goal">0</p><f>ккал</f></h3><button class="edit" id="food-edit-goal"><img src="./img/ico/edit.png" alt="edit"></button></label></div><div class="main-info"><div class="line"><div class="search"><input class="input" type="text" id="input-name" autofocus placeholder="Назва продукту"><button type="button" class="search-btn" id="btn-search-food"><img src="./img/ico/search.png" alt="search"></button><div class="food-select"><div class="info" id="select-info">Назва <span>Ккал</span></div><div class="food-select-options"> </div> </div></div><div class="weight"><input class="input" type="number" id="input-weight" placeholder="Вага (г)"></div><button type="button" class="eat-btn" id="eat-btn">З'їсти</button></div><div class="line"><div class="unit"> <h3>Калорії (ккал):</h3><span class="span" id="span-cal">0</span> </div><div class="unit"> <h3>Білки (г):</h3><span class="span" id="span-prot">0</span> </div><div class="unit"> <h3>Жири (г):</h3><span class="span" id="span-fat">0</span> </div><div class="unit"> <h3>Вуглеводи (г):</h3><span class="span" id="span-carb">0</span> </div></div></div><div class="cal-btns"><button type="button" class="history-btn" id="cal-history-btn"><img id="chart-img" src="./img/ico/clock.png" alt=""></button><button type="button" class="history-btn" id="cal-stat-btn"><img id="chart-img" src="./img/ico/chart.png" alt=""></button></div></div></div>`
 
     const main = mainRef.querySelector('.cal-page')
 
@@ -30,7 +30,6 @@ export function calPage() {
 
     const eatBtn = mainRef.querySelector('#eat-btn')
 
-    const btnSearch = mainRef.querySelector('#btn-search-food')
     const search = mainRef.querySelector('.search')
 
     const weight = mainRef.querySelector('#input-weight')
@@ -162,69 +161,55 @@ export function calPage() {
         userStateChanged()
     })
 
-    btnSearch.addEventListener('click', (e) => {
-        e.preventDefault()
+    const foodSelect = mainRef.querySelector('.food-select')
+    const foodSelectOptions = mainRef.querySelector('.food-select-options')
 
-        if (isSelectOpen) {
-            search.removeChild(search.querySelector('.food-select'))
+    inputName.addEventListener('blur', (e) => {
+        setTimeout(() => {
             isSelectOpen = false
-        }
-        else if (!isSelectOpen) {
-            search.insertAdjacentHTML('beforeend', '<div class="food-select"> <input class="food-select-input" placeholder="Пошук" /> <div class="food-select-options"> </div> </div>')
 
-            const foodSelectInput = mainRef.querySelector('.food-select-input')
-            const foodSelectOptions = mainRef.querySelector('.food-select-options')
+            foodSelect.style.height = 0
+            foodSelect.style.opacity = 0
+        }, 200)
+    })
+    
+    inputName.addEventListener('focus', (e) => {
+        isSelectOpen = true
 
-            foodSelectInput.addEventListener('blur', (e) => {
-                setTimeout(() => {
-                    try {
-                        isSelectOpen = false
-                        search.removeChild(search.querySelector('.food-select'))
-                    }
-                    catch (e) { }
-                }, 200);
-            })
+        foodSelect.style.height = "auto"
+        foodSelect.style.opacity = 1
 
-            function selectHandler(e) {
-                const query = e.target.value
-
-                const products = FoodAPI.getFood(query)
-
-                foodSelectOptions.innerHTML = ''
-                if (!isSelectOpen) foodSelectInput.insertAdjacentHTML('afterend', '<div class="info" id="select-info">Назва <span>Ккал</span></div>')
-
-                products.forEach(prod => {
-                    foodSelectOptions.innerHTML += `<div><p>${prod.name}</p><span>${round(+prod.cal || 0)}</span></div>`
-                })
-
-                foodSelectOptions.querySelectorAll('div').forEach(el => el.addEventListener('click', (e) => {
-                    const query = e.currentTarget.querySelector('p')?.innerHTML || null
-
-                    if (!query) return
-
-                    const meal = FoodAPI.getFood(query)[0]
-                    passData(meal)
-                    autoWEL = true
-
-                    weight.addEventListener('input', (e) => {
-                        const val = +e.target.value || 0
-                        if (autoWEL) passData(meal, val)
-                    })
-
-                    search.removeChild(search.querySelector('.food-select'))
-                    isSelectOpen = false
-                }))
-
-                isSelectOpen = true
-            }
-
-            foodSelectInput.addEventListener('focus', selectHandler)
-            foodSelectInput.addEventListener('input', selectHandler)
-
-            foodSelectInput.focus()
-        }
+        printFoodSelectOptions(e.target.value)
     })
 
+    inputName.addEventListener('input', (e) => {
+        const query = e.target.value
+        printFoodSelectOptions(query)
+    })
+    
+    function printFoodSelectOptions(query) {
+        const products = FoodAPI.getFood(query)
+        foodSelectOptions.innerHTML = ''
+
+        products.forEach(prod => {
+            foodSelectOptions.innerHTML += `<div><p>${prod.name}</p><span>${round(+prod.cal || 0)}</span></div>`
+        })
+
+        foodSelectOptions.querySelectorAll('div').forEach(el => el.addEventListener('click', (e) => {
+            const query = e.currentTarget.querySelector('p')?.innerHTML || null
+
+            if (!query) return
+
+            const meal = FoodAPI.getFood(query)[0]
+            passData(meal)
+            autoWEL = true
+
+            weight.addEventListener('input', (e) => {
+                const val = +e.target.value || 0
+                if (autoWEL) passData(meal, val)
+            })
+        }))
+    }
 
     function passData(meal, w = 100) {
         weight.value = w
@@ -235,6 +220,10 @@ export function calPage() {
         spanProt.innerHTML = round(meal.prot * (+weight.value / 100))
         spanFat.innerHTML = round(meal.fat * (+weight.value / 100))
         spanCarb.innerHTML = round(meal.carb * (+weight.value / 100))
+
+        isSelectOpen = false
+        foodSelect.style.height = 0
+        foodSelect.style.opacity = 0
     }
 
     updatePage()
@@ -294,12 +283,10 @@ function updatePage() {
 
     harr.sort((a, b) => a?.time - b?.time)
 
-    console.log(harr)
-
     harr.forEach(c => addHistoryItem(c))
 
     history.querySelectorAll(".delete-btn").forEach(b => {
-        b.addEventListener('click', async  e => {
+        b.addEventListener('click', async e => {
             e.preventDefault()
 
             const item = e.currentTarget.parentElement.parentElement
@@ -310,51 +297,51 @@ function updatePage() {
 
             user.cal.meals.forEach((el, j) => { if (+el.time === +time) { i = j; return } })
 
-            if(i >= 0) {
+            if (i >= 0) {
                 const meal = user.cal.meals[i]
 
-                user.cal.current -= meal.cal * (meal.weight/100)
-                user.cal.prot -= meal.prot * (meal.weight/100)
-                user.cal.fat -= meal.fat * (meal.weight/100)
-                user.cal.carb -= meal.carb * (meal.weight/100)
+                user.cal.current -= meal.cal * (meal.weight / 100)
+                user.cal.prot -= meal.prot * (meal.weight / 100)
+                user.cal.fat -= meal.fat * (meal.weight / 100)
+                user.cal.carb -= meal.carb * (meal.weight / 100)
 
-                if(user.cal.current < 0) user.cal.current = 0
-                if(user.cal.prot < 0) user.cal.prot = 0
-                if(user.cal.fat < 0) user.cal.fat = 0
-                if(user.cal.carb < 0) user.cal.carb = 0
-                
-                user.cal.meals.splice(i, 1) 
+                if (user.cal.current < 0) user.cal.current = 0
+                if (user.cal.prot < 0) user.cal.prot = 0
+                if (user.cal.fat < 0) user.cal.fat = 0
+                if (user.cal.carb < 0) user.cal.carb = 0
 
-                await userStateChanged() 
+                user.cal.meals.splice(i, 1)
+
+                await userStateChanged()
                 updatePage()
                 return
             }
-            else if(i === -1){
+            else if (i === -1) {
                 let t = 0;
 
-                for(const tkey in user.history){
+                for (const tkey in user.history) {
                     const meals = user.history[tkey].cal?.meals || []
 
                     meals.forEach((el, j) => { if (+el.time === +time) { i = j; t = tkey; return } })
                 }
 
-                if(i >= 0) {
+                if (i >= 0) {
                     const meal = user.history[t].cal.meals[i]
-                    user.history[t].cal.current -= meal.cal * (meal.weight/100)
+                    user.history[t].cal.current -= meal.cal * (meal.weight / 100)
 
-                    user.history[t].cal.current -= meal.cal * (meal.weight/100)
-                    user.history[t].cal.prot -= meal.prot * (meal.weight/100)
-                    user.history[t].cal.fat -= meal.fat * (meal.weight/100)
-                    user.history[t].cal.carb -= meal.carb * (meal.weight/100)
-    
-                    if(user.history[t].cal.current < 0) user.cal.current = 0
-                    if(user.history[t].cal.prot < 0) user.cal.prot = 0
-                    if(user.history[t].cal.fat < 0) user.cal.fat = 0
-                    if(user.history[t].cal.carb < 0) user.cal.carb = 0
-                    
-                    user.history[t].cal.meals.splice(i, 1) 
+                    user.history[t].cal.current -= meal.cal * (meal.weight / 100)
+                    user.history[t].cal.prot -= meal.prot * (meal.weight / 100)
+                    user.history[t].cal.fat -= meal.fat * (meal.weight / 100)
+                    user.history[t].cal.carb -= meal.carb * (meal.weight / 100)
 
-                    await userStateChanged() 
+                    if (user.history[t].cal.current < 0) user.cal.current = 0
+                    if (user.history[t].cal.prot < 0) user.cal.prot = 0
+                    if (user.history[t].cal.fat < 0) user.cal.fat = 0
+                    if (user.history[t].cal.carb < 0) user.cal.carb = 0
+
+                    user.history[t].cal.meals.splice(i, 1)
+
+                    await userStateChanged()
                     updatePage()
                     return
                 }

@@ -226,7 +226,7 @@ main.loading {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 100;
+  z-index: 11;
   width: 100vw;
   height: 100dvh;
   height: 100vh;
@@ -443,7 +443,7 @@ input[type=number] {
   position: absolute;
   bottom: 20px;
   left: 20px;
-  z-index: 105;
+  z-index: 12;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -596,11 +596,11 @@ input[type=number] {
   gap: 10px;
   padding: 20px;
   border-radius: 15px;
-  background-color: #21262D;
+  background-color: #2d3238;
   padding-right: 30px;
   width: 25%;
   overflow: hidden;
-  outline: 2px solid #21262D;
+  outline: 2px solid #2d3238;
 }
 .cal-page .main-info .unit span::after {
   content: "";
@@ -631,7 +631,7 @@ input[type=number] {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #21262D;
+  background-color: #2d3238;
   padding: 20px;
   border-radius: 15px;
   height: 70px;
@@ -642,16 +642,16 @@ input[type=number] {
   align-items: center;
   justify-content: space-between;
   flex-wrap: nowrap;
-  z-index: 20;
+  z-index: 10;
   height: 70px;
   width: calc(25% + 15px);
   border-bottom: none;
-  background-color: #21262D;
+  background-color: #2d3238;
   border-radius: 15px;
 }
 .cal-page .main-info .search-btn {
   all: unset;
-  cursor: pointer;
+  z-index: 11;
   border-left: 2px solid gray;
   display: flex;
   justify-content: center;
@@ -710,21 +710,21 @@ input[type=number] {
 .cal-page .food-select {
   position: absolute;
   left: 0;
-  top: 0;
-  z-index: 10;
+  top: calc(100% - 15px);
   padding: 20px;
-  border-radius: 15px;
-  max-width: 35ch;
+  height: 0;
+  opacity: 0;
+  border-radius: 0 0 15px 15px;
   width: 100%;
   background-color: #2d3238;
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: all 0.3s ease;
 }
 .cal-page .food-select .info {
   display: flex;
   width: 100%;
-  margin-top: 20px;
   font-size: 16px;
   line-height: normal;
   margin-bottom: 5px;
@@ -735,14 +735,6 @@ input[type=number] {
   width: 100%;
   text-align: end;
   padding-right: 40px;
-}
-.cal-page .food-select-input {
-  all: unset;
-  font-size: 16px;
-  line-height: normal;
-  width: 100%;
-  padding-bottom: 5px;
-  border-bottom: 2px solid gray;
 }
 .cal-page .food-select-options {
   position: relative;
@@ -794,7 +786,7 @@ input[type=number] {
   justify-content: center;
   text-align: center;
   width: fit-content;
-  z-index: 100;
+  z-index: 10;
   gap: 30px;
 }
 .weight-info .recomended,
@@ -910,7 +902,7 @@ input[type=number] {
   background-color: #f1f1f1;
   border-radius: 50%;
   opacity: 0.5;
-  z-index: 101;
+  z-index: 3;
   animation: fly 15s ease-in-out infinite;
 }
 .water-page .water .bubble:nth-child(1) {
@@ -1034,7 +1026,7 @@ input[type=number] {
   position: absolute;
   right: 20px;
   bottom: 20px;
-  z-index: 40;
+  z-index: 6;
   width: 100%;
   height: 100%;
   border-radius: 20px;
@@ -1049,7 +1041,7 @@ input[type=number] {
   height: 100px;
   right: -300px;
   bottom: 0px;
-  z-index: 10;
+  z-index: 3;
   border-radius: 20px 0 0 20px;
   background-color: #0d1117;
   padding: 0 25px;
@@ -1110,7 +1102,7 @@ input[type=number] {
   position: absolute;
   right: 0;
   bottom: 0;
-  z-index: 100;
+  z-index: 10;
   display: flex;
   flex-direction: column;
   background-color: #0d1117;
@@ -1160,7 +1152,7 @@ input[type=number] {
   background-color: #0d1117;
   box-shadow: 3px 3px 10px black;
   border-radius: 20px;
-  z-index: 99;
+  z-index: 10;
   padding: 30px;
   transform: translate(-20%, -70%);
 }

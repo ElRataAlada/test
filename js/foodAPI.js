@@ -4,10 +4,9 @@ import { user } from "./auth.js"
 
 export class FoodAPI {
     static getFood(name) {
-        const loacalInfo = user?.cal?.allMeals || []
-        foodInfo.push(...loacalInfo)
+        const loacalInfo = user?.allMeals || []
 
-        const info = [...new Map(foodInfo.map(item => [item['name'], item])).values()];
+        const info = [...new Map([...foodInfo, ...loacalInfo].map(item => [item['name'], item])).values()];
 
         const res = []
 
