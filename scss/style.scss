@@ -733,8 +733,7 @@ input[type=number] {
             margin-left: 20px;
             font-size: 18px;
 
-            max-width: 15ch;
-            width: 75%;
+            max-width: 20ch;
             line-height: normal;
         }
 
@@ -756,34 +755,15 @@ input[type=number] {
             
             display: flex;
             align-items: center;
-            justify-content: space-between;
             flex-wrap: nowrap;
             z-index: 10;
 
             height: 70px;
-            width: calc(25% + 15px);
+            padding: 0 10px;
             border-bottom: none;
     
             background-color: #2d3238;
             border-radius: 15px;
-        }
-
-        .search-btn{
-            all: unset;
-            z-index: 11;
-            border-left: 2px solid gray;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            max-height: 100%;
-            height: 100%;
-            aspect-ratio: 1;
-
-            img{
-                height: 50%;
-                aspect-ratio: 1;
-            }
         }
 
         .line{

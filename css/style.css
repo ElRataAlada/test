@@ -622,8 +622,7 @@ input[type=number] {
   margin-right: 10px;
   margin-left: 20px;
   font-size: 18px;
-  max-width: 15ch;
-  width: 75%;
+  max-width: 20ch;
   line-height: normal;
 }
 .cal-page .main-info .weight {
@@ -640,29 +639,13 @@ input[type=number] {
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   flex-wrap: nowrap;
   z-index: 10;
   height: 70px;
-  width: calc(25% + 15px);
+  padding: 0 10px;
   border-bottom: none;
   background-color: #2d3238;
   border-radius: 15px;
-}
-.cal-page .main-info .search-btn {
-  all: unset;
-  z-index: 11;
-  border-left: 2px solid gray;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-height: 100%;
-  height: 100%;
-  aspect-ratio: 1;
-}
-.cal-page .main-info .search-btn img {
-  height: 50%;
-  aspect-ratio: 1;
 }
 .cal-page .main-info .line {
   position: relative;
